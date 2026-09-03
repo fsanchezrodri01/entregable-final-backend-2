@@ -1,25 +1,38 @@
-# Plataforma de Eventos e Inscripciones
+# SoftwareAI — Plataforma de Inscripciones a Cursos
 
-Entregable final - Programacion Backend II (Coderhouse, comision 101730).
+API REST para administrar **cursos, workshops, bootcamps y diplomados** de desarrollo de software
+e ingeniería de datos, e inscribir estudiantes controlando el cupo disponible.
 
-## Tematica
+Entregable final de **Programación Backend II** — Coderhouse, comisión 101730.
 
-API REST para una **plataforma de eventos e inscripciones**: permite publicar eventos
-(charlas, talleres, conferencias) e inscribir usuarios controlando el cupo disponible.
+## Temática
 
-Esta primera entrega es el **refactor arquitectonico inicial**: deja armado el servidor
-Express separado en capas y el punto de partida para las proximas etapas (registro, login,
-JWT, cookies, Passport, roles, autorizacion, gestion de eventos, inscripciones, control de
-cupos y notificaciones).
+El proyecto modela la operación de [SoftwareAI](https://softwareai.com.mx/): *"Cursos de desarrollo
+de software con Inteligencia Artificial"*. El catálogo incluye programas como **Desarrollo de
+Software con IA: GitHub Copilot** y **Desarrollo de Software con IA: Claude Code**, además de
+workshops, bootcamps y diplomados de backend e ingeniería de datos.
 
-## Tecnologias
+La plataforma resuelve problemas reales de negocio, no solo un CRUD:
 
-- Node.js (>= 18) con modulos ESM (`import` / `export`)
-- Express 4
-- Mongoose 8 (modelos base, conexion opcional en esta etapa)
-- dotenv
+- una contraseña nunca se guarda ni se devuelve en claro;
+- hay rutas públicas, rutas privadas y rutas restringidas por rol;
+- un organizador administra **sus propios** cursos, no los ajenos;
+- no se permite inscribirse si no hay cupo, si el curso no está publicado o si ya pasó;
+- cancelar no borra: cambia el estado y conserva el historial.
 
-## Instalacion
+## Tecnologías
+
+| Área | Herramienta |
+|------|-------------|
+| Runtime | Node.js 18+ con módulos ESM |
+| Framework | Express 4 |
+| Base de datos | MongoDB + Mongoose 8 |
+| Autenticación | Passport (`register`, `login`, `current`) + JWT en cookie httpOnly |
+| Contraseñas | bcrypt |
+| Correo | Nodemailer |
+| Configuración | dotenv |
+
+## Instalación
 
 ```bash
 git clone https://github.com/fsanchezrodri01/entregable-final-backend-2.git
@@ -27,106 +40,248 @@ cd entregable-final-backend-2
 npm install
 ```
 
-## Configuracion de variables de entorno
+## Variables de entorno
 
-Copiar el archivo de ejemplo y completarlo:
+Copiá el ejemplo y completalo:
 
 ```bash
 cp .env.example .env
 ```
 
-| Variable     | Descripcion                                   | Ejemplo                                |
-|--------------|-----------------------------------------------|----------------------------------------|
-| `PORT`       | Puerto donde escucha el servidor              | `8080`                                 |
-| `NODE_ENV`   | Entorno de ejecucion                          | `development`                          |
-| `MONGO_URL`  | Cadena de conexion a MongoDB                  | `mongodb://localhost:27017/eventos`    |
-| `JWT_SECRET` | Secreto para firmar los JWT (proxima entrega) | `un_secreto_largo_y_aleatorio`         |
+| Variable | Descripción | Ejemplo |
+|----------|-------------|---------|
+| `PORT` | Puerto del servidor | `8081` |
+| `NODE_ENV` | Entorno (`secure` de la cookie se activa en `production`) | `development` |
+| `MONGO_URL` | Cadena de conexión a MongoDB | `mongodb://127.0.0.1:27017/softwareai` |
+| `JWT_SECRET` | Clave para firmar los JWT | `un_secreto_largo_y_aleatorio` |
+| `JWT_EXPIRES_IN` | Vigencia del token | `1h` |
+| `MAIL_HOST` | Host SMTP (vacío = los correos se registran en consola) | `smtp.gmail.com` |
+| `MAIL_PORT` | Puerto SMTP | `587` |
+| `MAIL_USER` | Usuario SMTP | `info@softwareai.com.mx` |
+| `MAIL_PASS` | Contraseña SMTP | `********` |
+| `MAIL_FROM` | Remitente | `SoftwareAI <info@softwareai.com.mx>` |
 
-Si `MONGO_URL` esta vacia el servidor arranca igual y avisa por consola que corre sin base de datos.
+> El `.env` real **no se versiona**. Si la contraseña de Mongo tiene caracteres especiales
+> (`*`, `[`, `@`…), hay que percent-encodearla: `admin:mi%2Aclave@host`.
 
-## Como ejecutar
+### MongoDB con Docker
+
+```bash
+docker run -d --name mongodb -p 27017:27017 mongo
+```
+
+## Cómo ejecutar
 
 ```bash
 npm start
 ```
 
-Modo desarrollo (recarga automatica con `node --watch`):
-
 ```bash
 npm run dev
 ```
 
-El servidor queda disponible en `http://localhost:8080` (o el puerto definido en `PORT`).
+```bash
+npm run seed
+```
+
+`npm run seed` **borra y recarga** la base con el catálogo de SoftwareAI y estos usuarios de prueba:
+
+| Rol | Email | Contraseña |
+|-----|-------|-----------|
+| `admin` | admin@softwareai.com.mx | `Admin123` |
+| `organizer` | instructor@softwareai.com.mx | `Organizer123` |
+| `organizer` | instructor2@softwareai.com.mx | `Organizer123` |
+| `user` | estudiante@softwareai.com.mx | `Usuario123` |
+
+También podés crear un usuario desde `POST /api/sessions/register`: siempre nace con rol `user`, y
+un `admin` puede promoverlo con `PATCH /api/users/:uid/role`.
 
 ## Estructura de carpetas
 
 ```
-entregable-final-backend-2/
-├── src/
-│   ├── app.js                    # configura Express (no levanta el servidor)
-│   ├── server.js                 # levanta el servidor
-│   ├── config/
-│   │   ├── config.js             # lectura de variables de entorno
-│   │   └── db.js                 # conexion a MongoDB
-│   ├── routes/
-│   │   ├── index.js              # agrupa los routers bajo /api
-│   │   ├── health.router.js
-│   │   ├── events.router.js
-│   │   └── sessions.router.js
-│   ├── controllers/
-│   │   ├── health.controller.js
-│   │   ├── events.controller.js
-│   │   └── sessions.controller.js
-│   ├── services/
-│   │   ├── events.service.js
-│   │   └── sessions.service.js
-│   ├── repositories/
-│   │   ├── events.repository.js
-│   │   └── users.repository.js
-│   ├── dao/
-│   │   ├── events.dao.js
-│   │   └── users.dao.js
-│   ├── models/
-│   │   ├── User.js               # campos minimos
-│   │   └── Event.js              # campos minimos
-│   ├── middlewares/
-│   │   ├── notFound.js
-│   │   └── errorHandler.js
-│   └── utils/
-│       └── httpError.js
-├── .env.example
-├── .gitignore
-├── package.json
-└── README.md
+src/
+├── app.js                  # configura Express (no levanta el servidor)
+├── server.js               # levanta el servidor
+├── config/                 # config.js, db.js, passport.config.js, mailer.config.js
+├── routes/                 # health, sessions, users, categories, events, tickets
+├── controllers/            # solo coordinan request/response
+├── services/               # TODAS las reglas de negocio
+├── repositories/           # intermediarios entre services y dao
+├── dao/                    # ÚNICA capa que importa modelos de Mongoose
+├── dto/                    # respuestas controladas (nunca exponen password)
+├── models/                 # User, Category, Event, Ticket
+├── middlewares/            # authenticate, authorize, notFound, errorHandler
+├── utils/                  # hash, jwt, validators, pagination, reservationCode, httpError
+└── scripts/seed.js         # datos de prueba
 ```
 
-El flujo de una peticion es: **router -> controller -> service -> repository -> dao -> model**.
+**Regla de oro de la arquitectura:** el flujo es
+`ruta → controller → service → repository → dao → modelo`. Los modelos de Mongoose se importan
+**solo** en los DAO; los services concentran las reglas de negocio; los controllers no validan nada
+de negocio; toda respuesta de usuario, curso o inscripción pasa por un DTO.
+
+## Roles
+
+| Rol | Puede |
+|-----|-------|
+| `user` | ver cursos, inscribirse, ver y cancelar **sus** inscripciones |
+| `organizer` | todo lo anterior + crear cursos y administrar **los propios** (editar, cambiar estado, ver sus inscriptos) |
+| `admin` | administrar usuarios, roles, categorías y **cualquier** curso o inscripción |
+
+El registro público **nunca** acepta `role` desde el body: lo asigna el backend.
+
+## Estados
+
+**Curso** (`draft` → `published` → `finished`, o `cancelled` en cualquier momento previo):
+
+| Estado | Significado |
+|--------|-------------|
+| `draft` | en preparación, no admite inscripciones |
+| `published` | visible y disponible |
+| `cancelled` | cancelado (sus inscripciones activas se cancelan en cascada) |
+| `finished` | ya ocurrió |
+
+**Inscripción**: `confirmed`, `pending`, `cancelled`. Las dos primeras ocupan cupo; `cancelled` no.
 
 ## Rutas disponibles
 
-| Metodo | Ruta                   | Descripcion                          | Respuesta                                        |
-|--------|------------------------|--------------------------------------|--------------------------------------------------|
-| GET    | `/api/health`          | Estado del servidor                  | `{ "status": "ok", "message": "Servidor activo" }` |
-| GET    | `/api/events`          | Lista de eventos (vacia por ahora)   | `{ "status": "success", "payload": [] }`         |
-| GET    | `/api/sessions/current` | Usuario autenticado (aun sin logica) | `{ "status": "success", "payload": null }`       |
+### Salud
+| Método | Ruta | Acceso |
+|--------|------|--------|
+| GET | `/api/health` | público |
 
-Ejemplos:
+### Sesiones
+| Método | Ruta | Acceso |
+|--------|------|--------|
+| POST | `/api/sessions/register` | público |
+| POST | `/api/sessions/login` | público |
+| GET | `/api/sessions/current` | autenticado |
+| POST | `/api/sessions/logout` | autenticado |
+
+### Cursos
+| Método | Ruta | Acceso |
+|--------|------|--------|
+| GET | `/api/events` | público (con sesión se amplía lo visible) |
+| GET | `/api/events/:eid` | público |
+| POST | `/api/events` | `organizer` / `admin` |
+| PUT | `/api/events/:eid` | dueño o `admin` |
+| PATCH | `/api/events/:eid/status` | dueño o `admin` |
+
+Filtros de `GET /api/events`: `status`, `category`, `location` (parcial), `fromDate`, `toDate`,
+`organizer`, `level`, `format`, `search` (título y descripción), `minPrice`, `maxPrice`, `page`,
+`limit` (máximo 50), `sort` (`date`, `-date`, `price`, `-price`, `title`, `createdAt`).
+
+Un usuario sin sesión o con rol `user` solo ve cursos `published` y `finished`; un `organizer` ve
+además **los suyos** en cualquier estado; un `admin` ve todo.
+
+### Inscripciones
+| Método | Ruta | Acceso |
+|--------|------|--------|
+| POST | `/api/events/:eid/tickets` | autenticado |
+| GET | `/api/events/:eid/tickets` | `organizer` dueño o `admin` |
+| GET | `/api/tickets/my-tickets` | autenticado (propias) |
+| PATCH | `/api/tickets/:tid/cancel` | dueño o `admin` |
+
+### Categorías
+| Método | Ruta | Acceso |
+|--------|------|--------|
+| GET | `/api/categories` | público |
+| POST | `/api/categories` | `admin` |
+| PUT | `/api/categories/:cid` | `admin` |
+| DELETE | `/api/categories/:cid` | `admin` |
+
+### Usuarios
+| Método | Ruta | Acceso |
+|--------|------|--------|
+| GET | `/api/users` | `admin` |
+| PATCH | `/api/users/:uid/role` | `admin` |
+
+## Ejemplos de uso
+
+Registro — el `role` enviado se ignora y el email se normaliza:
 
 ```bash
-curl http://localhost:8080/api/health
+curl -X POST http://localhost:8081/api/sessions/register -H "Content-Type: application/json" -d "{\"first_name\":\"Ana\",\"last_name\":\"Perez\",\"email\":\"Ana@Mail.com\",\"password\":\"Secreta123\",\"role\":\"admin\"}"
 ```
+
+```json
+{ "status": "success", "payload": { "id": "665f…", "first_name": "Ana", "last_name": "Perez", "email": "ana@mail.com", "role": "user" } }
+```
+
+Login — guarda la cookie `currentUser` en `cookies.txt`:
 
 ```bash
-curl http://localhost:8080/api/events
+curl -c cookies.txt -X POST http://localhost:8081/api/sessions/login -H "Content-Type: application/json" -d "{\"email\":\"estudiante@softwareai.com.mx\",\"password\":\"Usuario123\"}"
 ```
 
-Cualquier ruta inexistente devuelve `404` con el formato
-`{ "status": "error", "error": "Ruta no encontrada: ..." }`.
+Listado paginado:
 
-## Proximas entregas
+```bash
+curl "http://localhost:8081/api/events?status=published&page=1&limit=3"
+```
 
-- Registro y login de usuarios con hash de contrasena
-- JWT en cookies y estrategias de Passport
-- Roles y middlewares de autorizacion
-- CRUD completo de eventos
-- Inscripciones con control de cupos y notificaciones
+```json
+{ "status": "success", "data": [ { "id": "…", "title": "Desarrollo de Software con IA: GitHub Copilot", "status": "published" } ], "page": 1, "limit": 3, "total": 5, "totalPages": 2 }
+```
+
+Inscripción:
+
+```bash
+curl -b cookies.txt -X POST http://localhost:8081/api/events/<eid>/tickets -H "Content-Type: application/json" -d "{\"quantity\":1}"
+```
+
+```json
+{ "status": "success", "message": "Inscripcion realizada correctamente", "payload": { "id": "…", "quantity": 1, "status": "confirmed", "reservationCode": "SAI-VNNKEE" } }
+```
+
+Cancelación:
+
+```bash
+curl -b cookies.txt -X PATCH http://localhost:8081/api/tickets/<tid>/cancel
+```
+
+## Flujo de autenticación
+
+1. `POST /api/sessions/register` — valida campos, formato de email y longitud mínima de contraseña; normaliza el email; rechaza duplicados con `409`; hashea con bcrypt; fuerza `role: user`.
+2. `POST /api/sessions/login` — compara con `bcrypt.compare`. Usuario inexistente y contraseña incorrecta devuelven el **mismo** `401 Credenciales invalidas`, para no revelar qué emails existen.
+3. El backend firma un JWT y lo guarda en la cookie **`currentUser`** (`httpOnly`, `sameSite: lax`, `secure` solo en producción, 1 hora).
+4. En cada ruta privada, la estrategia `current` de Passport extrae el token de la cookie, lo verifica y **busca el usuario en la base** — así un usuario eliminado o con rol cambiado se refleja de inmediato. Lo deja en `req.user`.
+5. `POST /api/sessions/logout` borra la cookie.
+
+## Flujo de inscripción y regla de cupos
+
+`POST /api/events/:eid/tickets` valida, **en la capa de servicios**:
+
+1. el curso existe → si no, `404`;
+2. está en `published` → si no, `400`;
+3. la fecha no pasó → si no, `400`;
+4. `quantity` es un entero mayor a cero → si no, `400`;
+5. el usuario no tiene ya una inscripción activa → si la tiene, `409`;
+6. hay cupo suficiente → si no, `409` indicando cuántos lugares quedan.
+
+El usuario **siempre** sale de `req.user`, nunca del body.
+
+**Cupo disponible = `capacity` − suma de `quantity` de las inscripciones no canceladas.** Al ser un
+valor calculado, cancelar una inscripción libera el lugar automáticamente: no hay contador que
+pueda desincronizarse. Por eso tampoco se permite reducir `capacity` por debajo de las
+inscripciones activas, ni se borran documentos.
+
+Al cancelar un curso, sus inscripciones activas pasan a `cancelled` en cascada.
+
+## Notificaciones
+
+Nodemailer envía un correo al confirmar y al cancelar una inscripción, con el código de reserva.
+**Si el envío falla, la inscripción sigue siendo válida**: el correo es una notificación, no la
+operación principal, y un SMTP caído no debe impedir inscribirse. Sin `MAIL_HOST` configurado, los
+envíos se registran en consola.
+
+## Códigos de estado
+
+| Código | Cuándo |
+|--------|--------|
+| `400` | datos inválidos o regla de negocio incumplida |
+| `401` | falta sesión o el token es inválido/expiró |
+| `403` | hay sesión pero el rol o la propiedad del recurso no alcanzan |
+| `404` | el recurso no existe |
+| `409` | conflicto: email duplicado, inscripción duplicada, sin cupo |
+| `500` | error interno (middleware centralizado) |

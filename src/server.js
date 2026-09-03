@@ -5,5 +5,5 @@ import { connectDB } from './config/db.js';
 await connectDB();
 
 app.listen(config.port, () => {
-  console.log(`Servidor escuchando en http://localhost:${config.port} [${config.nodeEnv}]`);
+  console.log(`SoftwareAI API escuchando en http://localhost:${config.port} [${config.nodeEnv}]`);
 });

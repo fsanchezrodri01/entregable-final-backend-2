@@ -1,19 +1,34 @@
 {
   "name": "entregable-final-backend-2",
   "version": "1.0.0",
-  "description": "Plataforma de Eventos e Inscripciones - API REST por capas (Express + ESM)",
+  "description": "SoftwareAI - Plataforma de inscripciones a cursos, workshops, bootcamps y diplomados de desarrollo de software e ingenieria de datos",
   "type": "module",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "node --watch src/server.js"
+    "dev": "node --watch src/server.js",
+    "seed": "node src/scripts/seed.js"
   },
-  "keywords": ["express", "api", "eventos", "backend", "coderhouse"],
+  "keywords": [
+    "express",
+    "api",
+    "cursos",
+    "inscripciones",
+    "backend",
+    "coderhouse"
+  ],
   "author": "fsanchezrodri01",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "mongoose": "^8.5.1"
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.5.1",
+    "nodemailer": "^9.1.1",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0"
   }
 }
