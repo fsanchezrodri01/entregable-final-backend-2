@@ -1,0 +1,14 @@
+import { eventsRepository } from '../repositories/events.repository.js';
+
+class EventsService {
+  constructor(repository) {
+    this.repository = repository;
+  }
+
+  getAll() {
+    return this.repository.getAll();
+  }
+}
+
+export const eventsService = new EventsService(eventsRepository);
+export default eventsService;

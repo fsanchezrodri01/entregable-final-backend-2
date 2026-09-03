@@ -1,0 +1,19 @@
+{
+  "name": "entregable-final-backend-2",
+  "version": "1.0.0",
+  "description": "Plataforma de Eventos e Inscripciones - API REST por capas (Express + ESM)",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": ["express", "api", "eventos", "backend", "coderhouse"],
+  "author": "fsanchezrodri01",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.5.1"
+  }
+}
