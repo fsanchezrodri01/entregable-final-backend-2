@@ -22,3 +22,6 @@ Thumbs.db
 # Herramientas locales
 .claude/
 skills-lock.json
+
+# Scripts locales de generacion de evidencia (no se versionan)
+/scripts/
