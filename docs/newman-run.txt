@@ -4,89 +4,89 @@ SoftwareAI - Plataforma de Inscripciones a Cursos
 
 □ 00 - Salud
 └ GET /health
-  GET http://localhost:8081/api/health [200 OK, 278B, 49ms]
+  GET http://localhost:8081/api/health [200 OK, 278B, 36ms]
   √  200 y servidor activo
 
 □ 01 - Autenticacion
 └ Registro (intenta role admin, debe quedar user)
-  POST http://localhost:8081/api/sessions/register [201 Created, 381B, 93ms]
+  POST http://localhost:8081/api/sessions/register [201 Created, 381B, 87ms]
   √  201 creado
   √  el rol enviado se ignora
   √  el email se normaliza a minusculas
   √  no devuelve password
 
 └ Registro duplicado (409)
-  POST http://localhost:8081/api/sessions/register [409 Conflict, 299B, 7ms]
+  POST http://localhost:8081/api/sessions/register [409 Conflict, 299B, 6ms]
   √  409 conflicto
   √  mensaje claro
 
 └ Registro sin campos (400)
-  POST http://localhost:8081/api/sessions/register [400 Bad Request, 301B, 4ms]
+  POST http://localhost:8081/api/sessions/register [400 Bad Request, 301B, 7ms]
   √  400
 
 └ Registro con email invalido (400)
-  POST http://localhost:8081/api/sessions/register [400 Bad Request, 310B, 4ms]
+  POST http://localhost:8081/api/sessions/register [400 Bad Request, 310B, 3ms]
   √  400
   √  menciona el formato
 
 └ Login incorrecto (401)
-  POST http://localhost:8081/api/sessions/login [401 Unauthorized, 298B, 84ms]
+  POST http://localhost:8081/api/sessions/login [401 Unauthorized, 298B, 81ms]
   √  401
   √  no revela si el email existe
 
 └ Login correcto (cookie httpOnly)
-  POST http://localhost:8081/api/sessions/login [200 OK, 613B, 88ms]
+  POST http://localhost:8081/api/sessions/login [200 OK, 613B, 83ms]
   √  200
   √  el token no viaja en el body
 
 └ GET /sessions/current
-  GET http://localhost:8081/api/sessions/current [200 OK, 376B, 9ms]
+  GET http://localhost:8081/api/sessions/current [200 OK, 376B, 8ms]
   √  200
   √  sin password
 
 └ Logout
-  POST http://localhost:8081/api/sessions/logout [200 OK, 356B, 10ms]
+  POST http://localhost:8081/api/sessions/logout [200 OK, 356B, 9ms]
   √  200
 
 └ GET /current tras logout (401)
-  GET http://localhost:8081/api/sessions/current [401 Unauthorized, 290B, 4ms]
+  GET http://localhost:8081/api/sessions/current [401 Unauthorized, 290B, 3ms]
   √  401 no autenticado
 
 □ 02 - Cursos y roles
 └ Listado publico paginado
-  GET http://localhost:8081/api/events?status=published&page=1&limit=3 [200 OK, 2.42kB, 13ms]
+  GET http://localhost:8081/api/events?status=published&page=1&limit=3 [200 OK, 2.42kB, 11ms]
   √  200
   √  estructura paginada plana
 
 └ Tope de limit (pide 999, aplica 50)
-  GET http://localhost:8081/api/events?limit=999 [200 OK, 3.69kB, 12ms]
+  GET http://localhost:8081/api/events?limit=999 [200 OK, 3.69kB, 11ms]
   √  limit tope 50
 
 └ Login como user
-  POST http://localhost:8081/api/sessions/login [200 OK, 634B, 83ms]
+  POST http://localhost:8081/api/sessions/login [200 OK, 634B, 86ms]
 
 └ user intenta crear curso (403)
   POST http://localhost:8081/api/events [403 Forbidden, 317B, 8ms]
   √  403 sin permisos
 
 └ user pide status=draft (403)
-  GET http://localhost:8081/api/events?status=draft [403 Forbidden, 327B, 8ms]
+  GET http://localhost:8081/api/events?status=draft [403 Forbidden, 327B, 7ms]
   √  403: no ve borradores ajenos
 
 └ Login como organizer
-  POST http://localhost:8081/api/sessions/login [200 OK, 641B, 87ms]
+  POST http://localhost:8081/api/sessions/login [200 OK, 641B, 80ms]
 
 └ Guardar categoria en variable
-  GET http://localhost:8081/api/categories [200 OK, 851B, 6ms]
+  GET http://localhost:8081/api/categories [200 OK, 851B, 5ms]
   √  categoria encontrada
 
 └ Crear curso con fecha pasada (400)
-  POST http://localhost:8081/api/events [400 Bad Request, 318B, 10ms]
+  POST http://localhost:8081/api/events [400 Bad Request, 318B, 8ms]
   √  400
   √  rechaza fecha pasada
 
 └ Crear curso con capacidad 0 (400)
-  POST http://localhost:8081/api/events [400 Bad Request, 309B, 9ms]
+  POST http://localhost:8081/api/events [400 Bad Request, 309B, 10ms]
   √  400 capacidad invalida
 
 └ Crear curso valido (capacidad 2)
@@ -96,104 +96,104 @@ SoftwareAI - Plataforma de Inscripciones a Cursos
 
 □ 03 - Inscripciones y cupos
 └ Inscripcion sin sesion (401)
-  POST http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7/tickets [401 Unauthorized, 290B, 3ms]
+  POST http://localhost:8081/api/events/6a9a0edda3eee08940144763/tickets [401 Unauthorized, 290B, 3ms]
   √  401
 
 └ Login como user
-  POST http://localhost:8081/api/sessions/login [200 OK, 634B, 84ms]
+  POST http://localhost:8081/api/sessions/login [200 OK, 634B, 81ms]
 
 └ Inscripcion a curso inexistente (404)
-  POST http://localhost:8081/api/events/000000000000000000000000/tickets [404 Not Found, 292B, 10ms]
+  POST http://localhost:8081/api/events/000000000000000000000000/tickets [404 Not Found, 292B, 9ms]
   √  404
 
 └ Inscripcion exitosa (201)
-  POST http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7/tickets [201 Created, 709B, 26ms]
+  POST http://localhost:8081/api/events/6a9a0edda3eee08940144763/tickets [201 Created, 709B, 24ms]
   √  201 creada
   √  nace confirmada
   √  trae codigo de reserva
 
 └ Inscripcion duplicada (409)
-  POST http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7/tickets [409 Conflict, 317B, 12ms]
+  POST http://localhost:8081/api/events/6a9a0edda3eee08940144763/tickets [409 Conflict, 317B, 13ms]
   √  409 duplicada
   √  mensaje claro
 
 └ GET /tickets/my-tickets
-  GET http://localhost:8081/api/tickets/my-tickets [200 OK, 658B, 13ms]
+  GET http://localhost:8081/api/tickets/my-tickets [200 OK, 658B, 14ms]
   √  200
   √  incluye datos del curso
   √  sin password de nadie
 
 └ Login como organizer2 (para agotar el cupo)
-  POST http://localhost:8081/api/sessions/login [200 OK, 642B, 83ms]
+  POST http://localhost:8081/api/sessions/login [200 OK, 642B, 80ms]
 
 └ Pedir mas lugares de los disponibles (409)
-  POST http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7/tickets [409 Conflict, 319B, 15ms]
+  POST http://localhost:8081/api/events/6a9a0edda3eee08940144763/tickets [409 Conflict, 319B, 16ms]
   √  409 sin cupo
   √  dice cuantos quedan
 
 └ Tomar el ultimo cupo (201)
-  POST http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7/tickets [201 Created, 709B, 25ms]
+  POST http://localhost:8081/api/events/6a9a0edda3eee08940144763/tickets [201 Created, 709B, 25ms]
   √  201
 
 └ organizer2 intenta cancelar ticket ajeno (403)
-  PATCH http://localhost:8081/api/tickets/6a9a0ba3a3eee089401445b3/cancel [403 Forbidden, 322B, 14ms]
+  PATCH http://localhost:8081/api/tickets/6a9a0edda3eee0894014476f/cancel [403 Forbidden, 322B, 13ms]
   √  403 recurso ajeno
 
 └ user comun ve inscriptos del curso (403)
-  GET http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7/tickets [403 Forbidden, 338B, 8ms]
+  GET http://localhost:8081/api/events/6a9a0edda3eee08940144763/tickets [403 Forbidden, 338B, 10ms]
   √  403
 
 └ Login como user (cancelar lo propio)
-  POST http://localhost:8081/api/sessions/login [200 OK, 634B, 86ms]
+  POST http://localhost:8081/api/sessions/login [200 OK, 634B, 85ms]
 
 └ Cancelar inscripcion propia (200)
-  PATCH http://localhost:8081/api/tickets/6a9a0ba3a3eee089401445b3/cancel [200 OK, 726B, 19ms]
+  PATCH http://localhost:8081/api/tickets/6a9a0edda3eee0894014476f/cancel [200 OK, 726B, 19ms]
   √  200
   √  queda cancelada, no borrada
   √  registra cancelledAt
 
 └ Cancelar dos veces (400)
-  PATCH http://localhost:8081/api/tickets/6a9a0ba3a3eee089401445b3/cancel [400 Bad Request, 307B, 16ms]
+  PATCH http://localhost:8081/api/tickets/6a9a0edda3eee0894014476f/cancel [400 Bad Request, 307B, 13ms]
   √  400 ya cancelada
 
 └ Cupo liberado: nueva inscripcion funciona (201)
-  POST http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7/tickets [201 Created, 709B, 31ms]
+  POST http://localhost:8081/api/events/6a9a0edda3eee08940144763/tickets [201 Created, 709B, 25ms]
   √  201: el lugar cancelado volvio a estar disponible
 
 □ 04 - Propiedad y administracion
 └ Login como organizer2
-  POST http://localhost:8081/api/sessions/login [200 OK, 642B, 92ms]
+  POST http://localhost:8081/api/sessions/login [200 OK, 642B, 85ms]
 
 └ organizer2 intenta editar curso ajeno (403)
-  PUT http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7 [403 Forbidden, 317B, 14ms]
+  PUT http://localhost:8081/api/events/6a9a0edda3eee08940144763 [403 Forbidden, 317B, 14ms]
   √  403 no es su curso
 
 └ organizer2 ve inscriptos de curso ajeno (403)
-  GET http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7/tickets [403 Forbidden, 338B, 9ms]
+  GET http://localhost:8081/api/events/6a9a0edda3eee08940144763/tickets [403 Forbidden, 338B, 11ms]
   √  403
 
 └ Login como organizer dueno
-  POST http://localhost:8081/api/sessions/login [200 OK, 641B, 84ms]
+  POST http://localhost:8081/api/sessions/login [200 OK, 641B, 85ms]
 
 └ El dueno ve los inscriptos de su curso
-  GET http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7/tickets [200 OK, 1.73kB, 18ms]
+  GET http://localhost:8081/api/events/6a9a0edda3eee08940144763/tickets [200 OK, 1.73kB, 15ms]
   √  200
   √  sin password de los inscriptos
 
 └ Reducir capacidad por debajo de los inscriptos (400)
-  PUT http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7 [400 Bad Request, 338B, 16ms]
+  PUT http://localhost:8081/api/events/6a9a0edda3eee08940144763 [400 Bad Request, 338B, 17ms]
   √  400
   √  protege las inscripciones activas
 
 └ Mover la fecha al pasado (400)
-  PUT http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7 [400 Bad Request, 320B, 13ms]
+  PUT http://localhost:8081/api/events/6a9a0edda3eee08940144763 [400 Bad Request, 320B, 14ms]
   √  400
 
 └ Login como admin
-  POST http://localhost:8081/api/sessions/login [200 OK, 629B, 88ms]
+  POST http://localhost:8081/api/sessions/login [200 OK, 629B, 81ms]
 
 └ admin edita curso de otro organizador (200)
-  PUT http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7 [200 OK, 846B, 23ms]
+  PUT http://localhost:8081/api/events/6a9a0edda3eee08940144763 [200 OK, 846B, 23ms]
   √  200: el admin si puede
   √  capacidad ampliada
 
@@ -203,24 +203,24 @@ SoftwareAI - Plataforma de Inscripciones a Cursos
   √  ningun password expuesto
 
 └ admin crea categoria (201)
-  POST http://localhost:8081/api/categories [201 Created, 439B, 12ms]
+  POST http://localhost:8081/api/categories [201 Created, 439B, 11ms]
   √  201
 
 └ Borrar categoria con cursos asociados (409)
-  DELETE http://localhost:8081/api/categories/6a9a0b9bae15364795ce7cdc [409 Conflict, 327B, 12ms]
+  DELETE http://localhost:8081/api/categories/6a9a0ed830c27f03c45895f4 [409 Conflict, 327B, 12ms]
   √  409 integridad referencial
 
 └ admin cancela el curso (cascada)
-  PATCH http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7/status [200 OK, 846B, 23ms]
+  PATCH http://localhost:8081/api/events/6a9a0edda3eee08940144763/status [200 OK, 846B, 25ms]
   √  200
   √  curso cancelado
 
 └ Las inscripciones quedaron canceladas en cascada
-  GET http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7/tickets [200 OK, 1.78kB, 17ms]
+  GET http://localhost:8081/api/events/6a9a0edda3eee08940144763/tickets [200 OK, 1.78kB, 18ms]
   √  ninguna sigue activa
 
 └ Inscribirse a curso cancelado (400)
-  POST http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7/tickets [400 Bad Request, 321B, 10ms]
+  POST http://localhost:8081/api/events/6a9a0edda3eee08940144763/tickets [400 Bad Request, 321B, 10ms]
   √  400 no disponible
 
 ┌─────────────────────────┬──────────────────┬──────────────────┐
@@ -236,9 +236,9 @@ SoftwareAI - Plataforma de Inscripciones a Cursos
 ├─────────────────────────┼──────────────────┼──────────────────┤
 │              assertions │               66 │                0 │
 ├─────────────────────────┴──────────────────┴──────────────────┤
-│ total run duration: 2.4s                                      │
+│ total run duration: 2.3s                                      │
 ├───────────────────────────────────────────────────────────────┤
 │ total data received: 16.69kB (approx)                         │
 ├───────────────────────────────────────────────────────────────┤
-│ average response time: 29ms [min: 3ms, max: 93ms, s.d.: 31ms] │
+│ average response time: 28ms [min: 3ms, max: 87ms, s.d.: 29ms] │
 └───────────────────────────────────────────────────────────────┘

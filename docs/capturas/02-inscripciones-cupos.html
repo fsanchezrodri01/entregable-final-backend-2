@@ -29,16 +29,16 @@ pre { margin: 0; padding: 10px 12px; white-space: pre-wrap; word-break: break-wo
 
     <div class="card">
       <h2><span>Inscripcion exitosa</span> <span class="badge b2">HTTP 201</span></h2>
-      <pre class="req">POST /events/6a9a0a00a3eee089401443db/tickets
+      <pre class="req">POST /events/6a9a0ea4a3eee089401446c4/tickets
 
 {&quot;quantity&quot;:1}</pre>
       <pre>{
   &quot;status&quot;: &quot;success&quot;,
   &quot;message&quot;: &quot;Inscripcion realizada correctamente&quot;,
   &quot;payload&quot;: {
-    &quot;id&quot;: &quot;6a9a0a01a3eee089401443eb&quot;,
+    &quot;id&quot;: &quot;6a9a0ea6a3eee089401446d4&quot;,
     &quot;event&quot;: {
-      &quot;id&quot;: &quot;6a9a0a00a3eee089401443db&quot;,
+      &quot;id&quot;: &quot;6a9a0ea4a3eee089401446c4&quot;,
       &quot;title&quot;: &quot;Workshop de prueba de cupos&quot;,
       &quot;format&quot;: &quot;workshop&quot;,
       &quot;level&quot;: &quot;intermediate&quot;,
@@ -50,7 +50,7 @@ pre { margin: 0; padding: 10px 12px; white-space: pre-wrap; word-break: break-wo
     </div>
     <div class="card">
       <h2><span>Inscripcion duplicada del mismo usuario</span> <span class="badge b4">HTTP 409</span></h2>
-      <pre class="req">POST /events/6a9a0a00a3eee089401443db/tickets
+      <pre class="req">POST /events/6a9a0ea4a3eee089401446c4/tickets
 
 {&quot;quantity&quot;:1}</pre>
       <pre>{
@@ -60,7 +60,7 @@ pre { margin: 0; padding: 10px 12px; white-space: pre-wrap; word-break: break-wo
     </div>
     <div class="card">
       <h2><span>Se piden mas lugares de los disponibles</span> <span class="badge b4">HTTP 409</span></h2>
-      <pre class="req">POST /events/6a9a0a00a3eee089401443db/tickets
+      <pre class="req">POST /events/6a9a0ea4a3eee089401446c4/tickets
 
 {&quot;quantity&quot;:5}</pre>
       <pre>{
@@ -70,16 +70,16 @@ pre { margin: 0; padding: 10px 12px; white-space: pre-wrap; word-break: break-wo
     </div>
     <div class="card">
       <h2><span>El cupo liberado permite una nueva inscripcion</span> <span class="badge b2">HTTP 201</span></h2>
-      <pre class="req">POST /events/6a9a0a00a3eee089401443db/tickets
+      <pre class="req">POST /events/6a9a0ea4a3eee089401446c4/tickets
 
 {&quot;quantity&quot;:1}</pre>
       <pre>{
   &quot;status&quot;: &quot;success&quot;,
   &quot;message&quot;: &quot;Inscripcion realizada correctamente&quot;,
   &quot;payload&quot;: {
-    &quot;id&quot;: &quot;6a9a0a05a3eee08940144416&quot;,
+    &quot;id&quot;: &quot;6a9a0eaaa3eee089401446ff&quot;,
     &quot;event&quot;: {
-      &quot;id&quot;: &quot;6a9a0a00a3eee089401443db&quot;,
+      &quot;id&quot;: &quot;6a9a0ea4a3eee089401446c4&quot;,
       &quot;title&quot;: &quot;Workshop de prueba de cupos&quot;,
       &quot;format&quot;: &quot;workshop&quot;,
       &quot;level&quot;: &quot;intermediate&quot;,

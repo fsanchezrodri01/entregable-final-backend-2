@@ -5,8 +5,8 @@ cursos, inscripciones, control de cupo, cancelaciones y administracion.
 
 ## Antes de correr
 
-1. Levantar la API: `npm start`
-2. Cargar datos de prueba: `npm run seed`
+1. Instalar dependencias (incluye Newman): `npm install`
+2. Levantar la API: `npm start`
 
 La coleccion crea sus propios datos (un curso con capacidad 2) y guarda los ids en variables, asi
 que **se ejecuta de arriba hacia abajo**. Las cookies de sesion las administra Postman solo.

@@ -2,7 +2,7 @@
 
 Salidas reales de la API de SoftwareAI, generadas con `bash scripts/evidencia.sh`.
 
-- Fecha de ejecucion: 2026-09-03 18:06:11
+- Fecha de ejecucion: 2026-09-03 18:19:37
 - Base URL: `http://localhost:8081/api`
 - Estado de la base: recien cargada con `npm run seed`
 
@@ -37,7 +37,7 @@ POST /sessions/register
 {
   "status": "success",
   "payload": {
-    "id": "6a9a0b74a3eee08940144460",
+    "id": "6a9a0e99a3eee089401446a3",
     "first_name": "Ana",
     "last_name": "Perez",
     "email": "ana@mail.com",
@@ -133,7 +133,7 @@ GET /sessions/current
 {
   "status": "success",
   "payload": {
-    "id": "6a9a0b74a3eee08940144460",
+    "id": "6a9a0e99a3eee089401446a3",
     "first_name": "Ana",
     "last_name": "Perez",
     "email": "ana@mail.com",
@@ -169,7 +169,7 @@ GET /sessions/current
 {
   "status": "success",
   "payload": {
-    "id": "6a9a0b74a3eee08940144460",
+    "id": "6a9a0e99a3eee089401446a3",
     "first_name": "Ana",
     "last_name": "Perez",
     "email": "ana@mail.com",
@@ -192,72 +192,72 @@ GET /events?status=published&page=1&limit=3
   "status": "success",
   "data": [
     {
-      "id": "6a9a0b73b73c8e2cee1828fa",
+      "id": "6a9a0e98a9db0f0c84169db5",
       "title": "Workshop: Prompts efectivos para equipos de datos",
       "description": "Como dirigir asistentes de IA para explorar datasets, documentar modelos y generar consultas SQL confiables.",
       "category": {
-        "id": "6a9a0b73b73c8e2cee1828f2",
+        "id": "6a9a0e98a9db0f0c84169dad",
         "name": "Ingenieria de Datos",
         "slug": "ingenieria-de-datos",
         "description": "Pipelines, modelado y calidad de datos."
       },
       "format": "workshop",
       "level": "beginner",
-      "date": "2026-09-11T00:06:11.658Z",
+      "date": "2026-09-11T00:19:36.750Z",
       "location": "Online",
       "capacity": 50,
       "price": 0,
       "status": "published",
       "organizer": {
-        "id": "6a9a0b73b73c8e2cee1828ed",
+        "id": "6a9a0e98a9db0f0c84169da8",
         "first_name": "Diego",
         "last_name": "Ramirez",
         "email": "instructor2@softwareai.com.mx"
       }
     },
     {
-      "id": "6a9a0b73b73c8e2cee1828f7",
+      "id": "6a9a0e98a9db0f0c84169db2",
       "title": "Workshop: Analisis de errores en codigo generado por IA",
       "description": "Sesion intensiva para revisar propuestas de IA antes de implementarlas: lectura critica, deteccion de errores sutiles y criterios de aceptacion.",
       "category": {
-        "id": "6a9a0b73b73c8e2cee1828f0",
+        "id": "6a9a0e98a9db0f0c84169dab",
         "name": "Desarrollo con IA",
         "slug": "desarrollo-con-ia",
         "description": "Programar acompanado de asistentes de inteligencia artificial."
       },
       "format": "workshop",
       "level": "advanced",
-      "date": "2026-09-18T00:06:11.658Z",
+      "date": "2026-09-18T00:19:36.750Z",
       "location": "Online",
       "capacity": 25,
       "price": 1500,
       "status": "published",
       "organizer": {
-        "id": "6a9a0b73b73c8e2cee1828ed",
+        "id": "6a9a0e98a9db0f0c84169da8",
         "first_name": "Diego",
         "last_name": "Ramirez",
         "email": "instructor2@softwareai.com.mx"
       }
     },
     {
-      "id": "6a9a0b73b73c8e2cee1828f5",
+      "id": "6a9a0e98a9db0f0c84169db0",
       "title": "Desarrollo de Software con IA: GitHub Copilot",
       "description": "Curso practico para dirigir a GitHub Copilot en proyectos reales: generar y entender codigo, depurar, refactorizar, escribir pruebas y documentar. La programacion cambio, el criterio sigue siendo tuyo.",
       "category": {
-        "id": "6a9a0b73b73c8e2cee1828f0",
+        "id": "6a9a0e98a9db0f0c84169dab",
         "name": "Desarrollo con IA",
         "slug": "desarrollo-con-ia",
         "description": "Programar acompanado de asistentes de inteligencia artificial."
       },
       "format": "curso",
       "level": "intermediate",
-      "date": "2026-09-25T00:06:11.658Z",
+      "date": "2026-09-25T00:19:36.750Z",
       "location": "Online",
       "capacity": 40,
       "price": 4800,
       "status": "published",
       "organizer": {
-        "id": "6a9a0b73b73c8e2cee1828ec",
+        "id": "6a9a0e98a9db0f0c84169da7",
         "first_name": "Mariana",
         "last_name": "Ortega",
         "email": "instructor@softwareai.com.mx"
@@ -284,24 +284,24 @@ GET /events?search=copilot
   "status": "success",
   "data": [
     {
-      "id": "6a9a0b73b73c8e2cee1828f5",
+      "id": "6a9a0e98a9db0f0c84169db0",
       "title": "Desarrollo de Software con IA: GitHub Copilot",
       "description": "Curso practico para dirigir a GitHub Copilot en proyectos reales: generar y entender codigo, depurar, refactorizar, escribir pruebas y documentar. La programacion cambio, el criterio sigue siendo tuyo.",
       "category": {
-        "id": "6a9a0b73b73c8e2cee1828f0",
+        "id": "6a9a0e98a9db0f0c84169dab",
         "name": "Desarrollo con IA",
         "slug": "desarrollo-con-ia",
         "description": "Programar acompanado de asistentes de inteligencia artificial."
       },
       "format": "curso",
       "level": "intermediate",
-      "date": "2026-09-25T00:06:11.658Z",
+      "date": "2026-09-25T00:19:36.750Z",
       "location": "Online",
       "capacity": 40,
       "price": 4800,
       "status": "published",
       "organizer": {
-        "id": "6a9a0b73b73c8e2cee1828ec",
+        "id": "6a9a0e98a9db0f0c84169da7",
         "first_name": "Mariana",
         "last_name": "Ortega",
         "email": "instructor@softwareai.com.mx"
@@ -328,120 +328,120 @@ GET /events?limit=999
   "status": "success",
   "data": [
     {
-      "id": "6a9a0b73b73c8e2cee1828fa",
+      "id": "6a9a0e98a9db0f0c84169db5",
       "title": "Workshop: Prompts efectivos para equipos de datos",
       "description": "Como dirigir asistentes de IA para explorar datasets, documentar modelos y generar consultas SQL confiables.",
       "category": {
-        "id": "6a9a0b73b73c8e2cee1828f2",
+        "id": "6a9a0e98a9db0f0c84169dad",
         "name": "Ingenieria de Datos",
         "slug": "ingenieria-de-datos",
         "description": "Pipelines, modelado y calidad de datos."
       },
       "format": "workshop",
       "level": "beginner",
-      "date": "2026-09-11T00:06:11.658Z",
+      "date": "2026-09-11T00:19:36.750Z",
       "location": "Online",
       "capacity": 50,
       "price": 0,
       "status": "published",
       "organizer": {
-        "id": "6a9a0b73b73c8e2cee1828ed",
+        "id": "6a9a0e98a9db0f0c84169da8",
         "first_name": "Diego",
         "last_name": "Ramirez",
         "email": "instructor2@softwareai.com.mx"
       }
     },
     {
-      "id": "6a9a0b73b73c8e2cee1828f7",
+      "id": "6a9a0e98a9db0f0c84169db2",
       "title": "Workshop: Analisis de errores en codigo generado por IA",
       "description": "Sesion intensiva para revisar propuestas de IA antes de implementarlas: lectura critica, deteccion de errores sutiles y criterios de aceptacion.",
       "category": {
-        "id": "6a9a0b73b73c8e2cee1828f0",
+        "id": "6a9a0e98a9db0f0c84169dab",
         "name": "Desarrollo con IA",
         "slug": "desarrollo-con-ia",
         "description": "Programar acompanado de asistentes de inteligencia artificial."
       },
       "format": "workshop",
       "level": "advanced",
-      "date": "2026-09-18T00:06:11.658Z",
+      "date": "2026-09-18T00:19:36.750Z",
       "location": "Online",
       "capacity": 25,
       "price": 1500,
       "status": "published",
       "organizer": {
-        "id": "6a9a0b73b73c8e2cee1828ed",
+        "id": "6a9a0e98a9db0f0c84169da8",
         "first_name": "Diego",
         "last_name": "Ramirez",
         "email": "instructor2@softwareai.com.mx"
       }
     },
     {
-      "id": "6a9a0b73b73c8e2cee1828f5",
+      "id": "6a9a0e98a9db0f0c84169db0",
       "title": "Desarrollo de Software con IA: GitHub Copilot",
       "description": "Curso practico para dirigir a GitHub Copilot en proyectos reales: generar y entender codigo, depurar, refactorizar, escribir pruebas y documentar. La programacion cambio, el criterio sigue siendo tuyo.",
       "category": {
-        "id": "6a9a0b73b73c8e2cee1828f0",
+        "id": "6a9a0e98a9db0f0c84169dab",
         "name": "Desarrollo con IA",
         "slug": "desarrollo-con-ia",
         "description": "Programar acompanado de asistentes de inteligencia artificial."
       },
       "format": "curso",
       "level": "intermediate",
-      "date": "2026-09-25T00:06:11.658Z",
+      "date": "2026-09-25T00:19:36.750Z",
       "location": "Online",
       "capacity": 40,
       "price": 4800,
       "status": "published",
       "organizer": {
-        "id": "6a9a0b73b73c8e2cee1828ec",
+        "id": "6a9a0e98a9db0f0c84169da7",
         "first_name": "Mariana",
         "last_name": "Ortega",
         "email": "instructor@softwareai.com.mx"
       }
     },
     {
-      "id": "6a9a0b73b73c8e2cee1828f8",
+      "id": "6a9a0e98a9db0f0c84169db3",
       "title": "Bootcamp Backend con Node.js y MongoDB",
       "description": "Programa intensivo de APIs REST con Express, Mongoose, autenticacion con JWT y arquitectura por capas.",
       "category": {
-        "id": "6a9a0b73b73c8e2cee1828f1",
+        "id": "6a9a0e98a9db0f0c84169dac",
         "name": "Backend",
         "slug": "backend",
         "description": "APIs, bases de datos y arquitectura del lado del servidor."
       },
       "format": "bootcamp",
       "level": "beginner",
-      "date": "2026-10-04T00:06:11.658Z",
+      "date": "2026-10-04T00:19:36.750Z",
       "location": "Ciudad de Mexico",
       "capacity": 30,
       "price": 12500,
       "status": "published",
       "organizer": {
-        "id": "6a9a0b73b73c8e2cee1828ed",
+        "id": "6a9a0e98a9db0f0c84169da8",
         "first_name": "Diego",
         "last_name": "Ramirez",
         "email": "instructor2@softwareai.com.mx"
       }
     },
     {
-      "id": "6a9a0b73b73c8e2cee1828f9",
+      "id": "6a9a0e98a9db0f0c84169db4",
       "title": "Diplomado en Ingenieria de Datos",
       "description": "Diplomado de pipelines de datos, modelado dimensional, orquestacion y calidad de datos con Python y SQL.",
       "category": {
-        "id": "6a9a0b73b73c8e2cee1828f2",
+        "id": "6a9a0e98a9db0f0c84169dad",
         "name": "Ingenieria de Datos",
         "slug": "ingenieria-de-datos",
         "description": "Pipelines, modelado y calidad de datos."
       },
       "format": "diplomado",
       "level": "advanced",
-      "date": "2026-11-03T00:06:11.658Z",
+      "date": "2026-11-03T00:19:36.750Z",
       "location": "Online",
       "capacity": 20,
       "price": 24000,
       "status": "published",
       "organizer": {
-        "id": "6a9a0b73b73c8e2cee1828ec",
+        "id": "6a9a0e98a9db0f0c84169da7",
         "first_name": "Mariana",
         "last_name": "Ortega",
         "email": "instructor@softwareai.com.mx"
@@ -476,7 +476,7 @@ GET /events?status=draft
 ```http
 POST /events
 
-{"title":"No autorizado","description":"x","category":"6a9a0b73b73c8e2cee1828f1","date":"2027-06-01T10:00:00.000Z","location":"Online","capacity":10}
+{"title":"No autorizado","description":"x","category":"6a9a0e98a9db0f0c84169dac","date":"2027-06-01T10:00:00.000Z","location":"Online","capacity":10}
 ```
 
 **HTTP 403**
@@ -493,7 +493,7 @@ POST /events
 ```http
 POST /events
 
-{"title":"No autenticado","description":"x","category":"6a9a0b73b73c8e2cee1828f1","date":"2027-06-01T10:00:00.000Z","location":"Online","capacity":10}
+{"title":"No autenticado","description":"x","category":"6a9a0e98a9db0f0c84169dac","date":"2027-06-01T10:00:00.000Z","location":"Online","capacity":10}
 ```
 
 **HTTP 401**
@@ -510,7 +510,7 @@ POST /events
 ```http
 POST /events
 
-{"title":"Curso viejo","description":"x","category":"6a9a0b73b73c8e2cee1828f1","date":"2020-01-01T10:00:00.000Z","location":"Online","capacity":10}
+{"title":"Curso viejo","description":"x","category":"6a9a0e98a9db0f0c84169dac","date":"2020-01-01T10:00:00.000Z","location":"Online","capacity":10}
 ```
 
 **HTTP 400**
@@ -527,7 +527,7 @@ POST /events
 ```http
 POST /events
 
-{"title":"Sin cupo","description":"x","category":"6a9a0b73b73c8e2cee1828f1","date":"2027-06-01T10:00:00.000Z","location":"Online","capacity":0}
+{"title":"Sin cupo","description":"x","category":"6a9a0e98a9db0f0c84169dac","date":"2027-06-01T10:00:00.000Z","location":"Online","capacity":0}
 ```
 
 **HTTP 400**
@@ -544,7 +544,7 @@ POST /events
 ```http
 POST /events
 
-{"title":"Workshop de prueba de cupos","description":"Curso creado para verificar el control de cupo","category":"6a9a0b73b73c8e2cee1828f1","date":"2027-06-01T10:00:00.000Z","location":"Online","capacity":2,"price":0,"status":"published","format":"workshop","level":"intermediate"}
+{"title":"Workshop de prueba de cupos","description":"Curso creado para verificar el control de cupo","category":"6a9a0e98a9db0f0c84169dac","date":"2027-06-01T10:00:00.000Z","location":"Online","capacity":2,"price":0,"status":"published","format":"workshop","level":"intermediate"}
 ```
 
 **HTTP 201**
@@ -553,11 +553,11 @@ POST /events
 {
   "status": "success",
   "payload": {
-    "id": "6a9a0b7ba3eee08940144481",
+    "id": "6a9a0ea4a3eee089401446c4",
     "title": "Workshop de prueba de cupos",
     "description": "Curso creado para verificar el control de cupo",
     "category": {
-      "id": "6a9a0b73b73c8e2cee1828f1",
+      "id": "6a9a0e98a9db0f0c84169dac",
       "name": "Backend",
       "slug": "backend",
       "description": "APIs, bases de datos y arquitectura del lado del servidor."
@@ -570,7 +570,7 @@ POST /events
     "price": 0,
     "status": "published",
     "organizer": {
-      "id": "6a9a0b73b73c8e2cee1828ec",
+      "id": "6a9a0e98a9db0f0c84169da7",
       "first_name": "Mariana",
       "last_name": "Ortega",
       "email": "instructor@softwareai.com.mx"
@@ -583,7 +583,7 @@ POST /events
 ### Inscripcion sin sesion
 
 ```http
-POST /events/6a9a0b7ba3eee08940144481/tickets
+POST /events/6a9a0ea4a3eee089401446c4/tickets
 
 {"quantity":1}
 ```
@@ -617,7 +617,7 @@ POST /events/000000000000000000000000/tickets
 ### Inscripcion exitosa
 
 ```http
-POST /events/6a9a0b7ba3eee08940144481/tickets
+POST /events/6a9a0ea4a3eee089401446c4/tickets
 
 {"quantity":1}
 ```
@@ -629,9 +629,9 @@ POST /events/6a9a0b7ba3eee08940144481/tickets
   "status": "success",
   "message": "Inscripcion realizada correctamente",
   "payload": {
-    "id": "6a9a0b7ca3eee08940144491",
+    "id": "6a9a0ea6a3eee089401446d4",
     "event": {
-      "id": "6a9a0b7ba3eee08940144481",
+      "id": "6a9a0ea4a3eee089401446c4",
       "title": "Workshop de prueba de cupos",
       "format": "workshop",
       "level": "intermediate",
@@ -639,11 +639,11 @@ POST /events/6a9a0b7ba3eee08940144481/tickets
       "location": "Online",
       "status": "published"
     },
-    "user": "6a9a0b73b73c8e2cee1828ee",
+    "user": "6a9a0e98a9db0f0c84169da9",
     "quantity": 1,
     "status": "confirmed",
-    "reservationCode": "SAI-3DC9ZA",
-    "createdAt": "2026-09-04T00:06:20.430Z",
+    "reservationCode": "SAI-5PC6X7",
+    "createdAt": "2026-09-04T00:19:50.246Z",
     "cancelledAt": null
   }
 }
@@ -652,7 +652,7 @@ POST /events/6a9a0b7ba3eee08940144481/tickets
 ### Inscripcion duplicada del mismo usuario
 
 ```http
-POST /events/6a9a0b7ba3eee08940144481/tickets
+POST /events/6a9a0ea4a3eee089401446c4/tickets
 
 {"quantity":1}
 ```
@@ -669,7 +669,7 @@ POST /events/6a9a0b7ba3eee08940144481/tickets
 ### Se piden mas lugares de los disponibles
 
 ```http
-POST /events/6a9a0b7ba3eee08940144481/tickets
+POST /events/6a9a0ea4a3eee089401446c4/tickets
 
 {"quantity":5}
 ```
@@ -686,7 +686,7 @@ POST /events/6a9a0b7ba3eee08940144481/tickets
 ### Se toma el ultimo lugar
 
 ```http
-POST /events/6a9a0b7ba3eee08940144481/tickets
+POST /events/6a9a0ea4a3eee089401446c4/tickets
 
 {"quantity":1}
 ```
@@ -698,9 +698,9 @@ POST /events/6a9a0b7ba3eee08940144481/tickets
   "status": "success",
   "message": "Inscripcion realizada correctamente",
   "payload": {
-    "id": "6a9a0b7da3eee089401444a0",
+    "id": "6a9a0ea7a3eee089401446e3",
     "event": {
-      "id": "6a9a0b7ba3eee08940144481",
+      "id": "6a9a0ea4a3eee089401446c4",
       "title": "Workshop de prueba de cupos",
       "format": "workshop",
       "level": "intermediate",
@@ -708,11 +708,11 @@ POST /events/6a9a0b7ba3eee08940144481/tickets
       "location": "Online",
       "status": "published"
     },
-    "user": "6a9a0b73b73c8e2cee1828ed",
+    "user": "6a9a0e98a9db0f0c84169da8",
     "quantity": 1,
     "status": "confirmed",
-    "reservationCode": "SAI-5VNDEM",
-    "createdAt": "2026-09-04T00:06:21.495Z",
+    "reservationCode": "SAI-TS6U4Z",
+    "createdAt": "2026-09-04T00:19:51.842Z",
     "cancelledAt": null
   }
 }
@@ -721,7 +721,7 @@ POST /events/6a9a0b7ba3eee08940144481/tickets
 ### Curso agotado
 
 ```http
-POST /events/6a9a0b7ba3eee08940144481/tickets
+POST /events/6a9a0ea4a3eee089401446c4/tickets
 
 {"quantity":1}
 ```
@@ -748,9 +748,9 @@ GET /tickets/my-tickets
   "status": "success",
   "payload": [
     {
-      "id": "6a9a0b7ca3eee08940144491",
+      "id": "6a9a0ea6a3eee089401446d4",
       "event": {
-        "id": "6a9a0b7ba3eee08940144481",
+        "id": "6a9a0ea4a3eee089401446c4",
         "title": "Workshop de prueba de cupos",
         "format": "workshop",
         "level": "intermediate",
@@ -758,11 +758,11 @@ GET /tickets/my-tickets
         "location": "Online",
         "status": "published"
       },
-      "user": "6a9a0b73b73c8e2cee1828ee",
+      "user": "6a9a0e98a9db0f0c84169da9",
       "quantity": 1,
       "status": "confirmed",
-      "reservationCode": "SAI-3DC9ZA",
-      "createdAt": "2026-09-04T00:06:20.430Z",
+      "reservationCode": "SAI-5PC6X7",
+      "createdAt": "2026-09-04T00:19:50.246Z",
       "cancelledAt": null
     }
   ]
@@ -773,7 +773,7 @@ GET /tickets/my-tickets
 ### Un tercero intenta cancelar una inscripcion ajena
 
 ```http
-PATCH /tickets/6a9a0b7ca3eee08940144491/cancel
+PATCH /tickets/6a9a0ea6a3eee089401446d4/cancel
 ```
 
 **HTTP 403**
@@ -788,7 +788,7 @@ PATCH /tickets/6a9a0b7ca3eee08940144491/cancel
 ### El dueno cancela su inscripcion
 
 ```http
-PATCH /tickets/6a9a0b7ca3eee08940144491/cancel
+PATCH /tickets/6a9a0ea6a3eee089401446d4/cancel
 ```
 
 **HTTP 200**
@@ -798,9 +798,9 @@ PATCH /tickets/6a9a0b7ca3eee08940144491/cancel
   "status": "success",
   "message": "Inscripcion cancelada correctamente",
   "payload": {
-    "id": "6a9a0b7ca3eee08940144491",
+    "id": "6a9a0ea6a3eee089401446d4",
     "event": {
-      "id": "6a9a0b7ba3eee08940144481",
+      "id": "6a9a0ea4a3eee089401446c4",
       "title": "Workshop de prueba de cupos",
       "format": "workshop",
       "level": "intermediate",
@@ -808,12 +808,12 @@ PATCH /tickets/6a9a0b7ca3eee08940144491/cancel
       "location": "Online",
       "status": "published"
     },
-    "user": "6a9a0b73b73c8e2cee1828ee",
+    "user": "6a9a0e98a9db0f0c84169da9",
     "quantity": 1,
     "status": "cancelled",
-    "reservationCode": "SAI-3DC9ZA",
-    "createdAt": "2026-09-04T00:06:20.430Z",
-    "cancelledAt": "2026-09-04T00:06:23.105Z"
+    "reservationCode": "SAI-5PC6X7",
+    "createdAt": "2026-09-04T00:19:50.246Z",
+    "cancelledAt": "2026-09-04T00:19:53.582Z"
   }
 }
 ```
@@ -821,7 +821,7 @@ PATCH /tickets/6a9a0b7ca3eee08940144491/cancel
 ### Se intenta cancelar dos veces
 
 ```http
-PATCH /tickets/6a9a0b7ca3eee08940144491/cancel
+PATCH /tickets/6a9a0ea6a3eee089401446d4/cancel
 ```
 
 **HTTP 400**
@@ -836,7 +836,7 @@ PATCH /tickets/6a9a0b7ca3eee08940144491/cancel
 ### El cupo liberado permite una nueva inscripcion
 
 ```http
-POST /events/6a9a0b7ba3eee08940144481/tickets
+POST /events/6a9a0ea4a3eee089401446c4/tickets
 
 {"quantity":1}
 ```
@@ -848,9 +848,9 @@ POST /events/6a9a0b7ba3eee08940144481/tickets
   "status": "success",
   "message": "Inscripcion realizada correctamente",
   "payload": {
-    "id": "6a9a0b7fa3eee089401444bc",
+    "id": "6a9a0eaaa3eee089401446ff",
     "event": {
-      "id": "6a9a0b7ba3eee08940144481",
+      "id": "6a9a0ea4a3eee089401446c4",
       "title": "Workshop de prueba de cupos",
       "format": "workshop",
       "level": "intermediate",
@@ -858,11 +858,11 @@ POST /events/6a9a0b7ba3eee08940144481/tickets
       "location": "Online",
       "status": "published"
     },
-    "user": "6a9a0b73b73c8e2cee1828eb",
+    "user": "6a9a0e98a9db0f0c84169da6",
     "quantity": 1,
     "status": "confirmed",
-    "reservationCode": "SAI-KEFC6J",
-    "createdAt": "2026-09-04T00:06:23.929Z",
+    "reservationCode": "SAI-NPRGEN",
+    "createdAt": "2026-09-04T00:19:54.362Z",
     "cancelledAt": null
   }
 }
@@ -872,7 +872,7 @@ POST /events/6a9a0b7ba3eee08940144481/tickets
 ### Un organizador intenta editar un curso ajeno
 
 ```http
-PUT /events/6a9a0b7ba3eee08940144481
+PUT /events/6a9a0ea4a3eee089401446c4
 
 {"title":"Curso secuestrado"}
 ```
@@ -889,7 +889,7 @@ PUT /events/6a9a0b7ba3eee08940144481
 ### Un organizador ajeno intenta ver los inscriptos
 
 ```http
-GET /events/6a9a0b7ba3eee08940144481/tickets
+GET /events/6a9a0ea4a3eee089401446c4/tickets
 ```
 
 **HTTP 403**
@@ -904,7 +904,7 @@ GET /events/6a9a0b7ba3eee08940144481/tickets
 ### Un user comun intenta ver los inscriptos
 
 ```http
-GET /events/6a9a0b7ba3eee08940144481/tickets
+GET /events/6a9a0ea4a3eee089401446c4/tickets
 ```
 
 **HTTP 403**
@@ -919,7 +919,7 @@ GET /events/6a9a0b7ba3eee08940144481/tickets
 ### El organizador dueno si ve sus inscriptos
 
 ```http
-GET /events/6a9a0b7ba3eee08940144481/tickets
+GET /events/6a9a0ea4a3eee089401446c4/tickets
 ```
 
 **HTTP 200**
@@ -929,9 +929,9 @@ GET /events/6a9a0b7ba3eee08940144481/tickets
   "status": "success",
   "payload": [
     {
-      "id": "6a9a0b7fa3eee089401444bc",
+      "id": "6a9a0eaaa3eee089401446ff",
       "event": {
-        "id": "6a9a0b7ba3eee08940144481",
+        "id": "6a9a0ea4a3eee089401446c4",
         "title": "Workshop de prueba de cupos",
         "format": "workshop",
         "level": "intermediate",
@@ -940,21 +940,21 @@ GET /events/6a9a0b7ba3eee08940144481/tickets
         "status": "published"
       },
       "user": {
-        "id": "6a9a0b73b73c8e2cee1828eb",
+        "id": "6a9a0e98a9db0f0c84169da6",
         "first_name": "Fernando",
         "last_name": "Sanchez",
         "email": "admin@softwareai.com.mx"
       },
       "quantity": 1,
       "status": "confirmed",
-      "reservationCode": "SAI-KEFC6J",
-      "createdAt": "2026-09-04T00:06:23.929Z",
+      "reservationCode": "SAI-NPRGEN",
+      "createdAt": "2026-09-04T00:19:54.362Z",
       "cancelledAt": null
     },
     {
-      "id": "6a9a0b7da3eee089401444a0",
+      "id": "6a9a0ea7a3eee089401446e3",
       "event": {
-        "id": "6a9a0b7ba3eee08940144481",
+        "id": "6a9a0ea4a3eee089401446c4",
         "title": "Workshop de prueba de cupos",
         "format": "workshop",
         "level": "intermediate",
@@ -963,21 +963,21 @@ GET /events/6a9a0b7ba3eee08940144481/tickets
         "status": "published"
       },
       "user": {
-        "id": "6a9a0b73b73c8e2cee1828ed",
+        "id": "6a9a0e98a9db0f0c84169da8",
         "first_name": "Diego",
         "last_name": "Ramirez",
         "email": "instructor2@softwareai.com.mx"
       },
       "quantity": 1,
       "status": "confirmed",
-      "reservationCode": "SAI-5VNDEM",
-      "createdAt": "2026-09-04T00:06:21.495Z",
+      "reservationCode": "SAI-TS6U4Z",
+      "createdAt": "2026-09-04T00:19:51.842Z",
       "cancelledAt": null
     },
     {
-      "id": "6a9a0b7ca3eee08940144491",
+      "id": "6a9a0ea6a3eee089401446d4",
       "event": {
-        "id": "6a9a0b7ba3eee08940144481",
+        "id": "6a9a0ea4a3eee089401446c4",
         "title": "Workshop de prueba de cupos",
         "format": "workshop",
         "level": "intermediate",
@@ -986,16 +986,16 @@ GET /events/6a9a0b7ba3eee08940144481/tickets
         "status": "published"
       },
       "user": {
-        "id": "6a9a0b73b73c8e2cee1828ee",
+        "id": "6a9a0e98a9db0f0c84169da9",
         "first_name": "Sofia",
         "last_name": "Gutierrez",
         "email": "estudiante@softwareai.com.mx"
       },
       "quantity": 1,
       "status": "cancelled",
-      "reservationCode": "SAI-3DC9ZA",
-      "createdAt": "2026-09-04T00:06:20.430Z",
-      "cancelledAt": "2026-09-04T00:06:23.105Z"
+      "reservationCode": "SAI-5PC6X7",
+      "createdAt": "2026-09-04T00:19:50.246Z",
+      "cancelledAt": "2026-09-04T00:19:53.582Z"
     }
   ]
 }
@@ -1004,7 +1004,7 @@ GET /events/6a9a0b7ba3eee08940144481/tickets
 ### Se intenta reducir la capacidad por debajo de las inscripciones activas
 
 ```http
-PUT /events/6a9a0b7ba3eee08940144481
+PUT /events/6a9a0ea4a3eee089401446c4
 
 {"capacity":1}
 ```
@@ -1021,7 +1021,7 @@ PUT /events/6a9a0b7ba3eee08940144481
 ### Se intenta mover la fecha al pasado
 
 ```http
-PUT /events/6a9a0b7ba3eee08940144481
+PUT /events/6a9a0ea4a3eee089401446c4
 
 {"date":"2020-01-01T10:00:00.000Z"}
 ```
@@ -1038,7 +1038,7 @@ PUT /events/6a9a0b7ba3eee08940144481
 ### El admin si edita el curso de otro organizador
 
 ```http
-PUT /events/6a9a0b7ba3eee08940144481
+PUT /events/6a9a0ea4a3eee089401446c4
 
 {"capacity":20,"price":990}
 ```
@@ -1049,11 +1049,11 @@ PUT /events/6a9a0b7ba3eee08940144481
 {
   "status": "success",
   "payload": {
-    "id": "6a9a0b7ba3eee08940144481",
+    "id": "6a9a0ea4a3eee089401446c4",
     "title": "Workshop de prueba de cupos",
     "description": "Curso creado para verificar el control de cupo",
     "category": {
-      "id": "6a9a0b73b73c8e2cee1828f1",
+      "id": "6a9a0e98a9db0f0c84169dac",
       "name": "Backend",
       "slug": "backend",
       "description": "APIs, bases de datos y arquitectura del lado del servidor."
@@ -1066,7 +1066,7 @@ PUT /events/6a9a0b7ba3eee08940144481
     "price": 990,
     "status": "published",
     "organizer": {
-      "id": "6a9a0b73b73c8e2cee1828ec",
+      "id": "6a9a0e98a9db0f0c84169da7",
       "first_name": "Mariana",
       "last_name": "Ortega",
       "email": "instructor@softwareai.com.mx"
@@ -1104,21 +1104,21 @@ GET /users?limit=3
   "status": "success",
   "data": [
     {
-      "id": "6a9a0b74a3eee08940144460",
+      "id": "6a9a0e99a3eee089401446a3",
       "first_name": "Ana",
       "last_name": "Perez",
       "email": "ana@mail.com",
       "role": "user"
     },
     {
-      "id": "6a9a0b73b73c8e2cee1828ee",
+      "id": "6a9a0e98a9db0f0c84169da9",
       "first_name": "Sofia",
       "last_name": "Gutierrez",
       "email": "estudiante@softwareai.com.mx",
       "role": "user"
     },
     {
-      "id": "6a9a0b73b73c8e2cee1828ed",
+      "id": "6a9a0e98a9db0f0c84169da8",
       "first_name": "Diego",
       "last_name": "Ramirez",
       "email": "instructor2@softwareai.com.mx",
@@ -1146,7 +1146,7 @@ POST /categories
 {
   "status": "success",
   "payload": {
-    "id": "6a9a0b83a3eee089401444e3",
+    "id": "6a9a0eaea3eee08940144726",
     "name": "QA y Pruebas con IA",
     "slug": "qa-y-pruebas-con-ia",
     "description": "Pruebas automatizadas asistidas por IA"
@@ -1157,7 +1157,7 @@ POST /categories
 ### Se intenta borrar una categoria con cursos asociados
 
 ```http
-DELETE /categories/6a9a0b73b73c8e2cee1828f1
+DELETE /categories/6a9a0e98a9db0f0c84169dac
 ```
 
 **HTTP 409**
@@ -1173,7 +1173,7 @@ DELETE /categories/6a9a0b73b73c8e2cee1828f1
 ### El admin cancela el curso
 
 ```http
-PATCH /events/6a9a0b7ba3eee08940144481/status
+PATCH /events/6a9a0ea4a3eee089401446c4/status
 
 {"status":"cancelled"}
 ```
@@ -1184,11 +1184,11 @@ PATCH /events/6a9a0b7ba3eee08940144481/status
 {
   "status": "success",
   "payload": {
-    "id": "6a9a0b7ba3eee08940144481",
+    "id": "6a9a0ea4a3eee089401446c4",
     "title": "Workshop de prueba de cupos",
     "description": "Curso creado para verificar el control de cupo",
     "category": {
-      "id": "6a9a0b73b73c8e2cee1828f1",
+      "id": "6a9a0e98a9db0f0c84169dac",
       "name": "Backend",
       "slug": "backend",
       "description": "APIs, bases de datos y arquitectura del lado del servidor."
@@ -1201,7 +1201,7 @@ PATCH /events/6a9a0b7ba3eee08940144481/status
     "price": 990,
     "status": "cancelled",
     "organizer": {
-      "id": "6a9a0b73b73c8e2cee1828ec",
+      "id": "6a9a0e98a9db0f0c84169da7",
       "first_name": "Mariana",
       "last_name": "Ortega",
       "email": "instructor@softwareai.com.mx"
@@ -1213,7 +1213,7 @@ PATCH /events/6a9a0b7ba3eee08940144481/status
 ### Las inscripciones activas quedaron canceladas
 
 ```http
-GET /events/6a9a0b7ba3eee08940144481/tickets
+GET /events/6a9a0ea4a3eee089401446c4/tickets
 ```
 
 **HTTP 200**
@@ -1223,9 +1223,9 @@ GET /events/6a9a0b7ba3eee08940144481/tickets
   "status": "success",
   "payload": [
     {
-      "id": "6a9a0b7fa3eee089401444bc",
+      "id": "6a9a0eaaa3eee089401446ff",
       "event": {
-        "id": "6a9a0b7ba3eee08940144481",
+        "id": "6a9a0ea4a3eee089401446c4",
         "title": "Workshop de prueba de cupos",
         "format": "workshop",
         "level": "intermediate",
@@ -1234,21 +1234,21 @@ GET /events/6a9a0b7ba3eee08940144481/tickets
         "status": "cancelled"
       },
       "user": {
-        "id": "6a9a0b73b73c8e2cee1828eb",
+        "id": "6a9a0e98a9db0f0c84169da6",
         "first_name": "Fernando",
         "last_name": "Sanchez",
         "email": "admin@softwareai.com.mx"
       },
       "quantity": 1,
       "status": "cancelled",
-      "reservationCode": "SAI-KEFC6J",
-      "createdAt": "2026-09-04T00:06:23.929Z",
-      "cancelledAt": "2026-09-04T00:06:28.515Z"
+      "reservationCode": "SAI-NPRGEN",
+      "createdAt": "2026-09-04T00:19:54.362Z",
+      "cancelledAt": "2026-09-04T00:19:59.242Z"
     },
     {
-      "id": "6a9a0b7da3eee089401444a0",
+      "id": "6a9a0ea7a3eee089401446e3",
       "event": {
-        "id": "6a9a0b7ba3eee08940144481",
+        "id": "6a9a0ea4a3eee089401446c4",
         "title": "Workshop de prueba de cupos",
         "format": "workshop",
         "level": "intermediate",
@@ -1257,21 +1257,21 @@ GET /events/6a9a0b7ba3eee08940144481/tickets
         "status": "cancelled"
       },
       "user": {
-        "id": "6a9a0b73b73c8e2cee1828ed",
+        "id": "6a9a0e98a9db0f0c84169da8",
         "first_name": "Diego",
         "last_name": "Ramirez",
         "email": "instructor2@softwareai.com.mx"
       },
       "quantity": 1,
       "status": "cancelled",
-      "reservationCode": "SAI-5VNDEM",
-      "createdAt": "2026-09-04T00:06:21.495Z",
-      "cancelledAt": "2026-09-04T00:06:28.515Z"
+      "reservationCode": "SAI-TS6U4Z",
+      "createdAt": "2026-09-04T00:19:51.842Z",
+      "cancelledAt": "2026-09-04T00:19:59.242Z"
     },
     {
-      "id": "6a9a0b7ca3eee08940144491",
+      "id": "6a9a0ea6a3eee089401446d4",
       "event": {
-        "id": "6a9a0b7ba3eee08940144481",
+        "id": "6a9a0ea4a3eee089401446c4",
         "title": "Workshop de prueba de cupos",
         "format": "workshop",
         "level": "intermediate",
@@ -1280,16 +1280,16 @@ GET /events/6a9a0b7ba3eee08940144481/tickets
         "status": "cancelled"
       },
       "user": {
-        "id": "6a9a0b73b73c8e2cee1828ee",
+        "id": "6a9a0e98a9db0f0c84169da9",
         "first_name": "Sofia",
         "last_name": "Gutierrez",
         "email": "estudiante@softwareai.com.mx"
       },
       "quantity": 1,
       "status": "cancelled",
-      "reservationCode": "SAI-3DC9ZA",
-      "createdAt": "2026-09-04T00:06:20.430Z",
-      "cancelledAt": "2026-09-04T00:06:23.105Z"
+      "reservationCode": "SAI-5PC6X7",
+      "createdAt": "2026-09-04T00:19:50.246Z",
+      "cancelledAt": "2026-09-04T00:19:53.582Z"
     }
   ]
 }
@@ -1298,7 +1298,7 @@ GET /events/6a9a0b7ba3eee08940144481/tickets
 ### Ya no se puede inscribir a un curso cancelado
 
 ```http
-POST /events/6a9a0b7ba3eee08940144481/tickets
+POST /events/6a9a0ea4a3eee089401446c4/tickets
 
 {"quantity":1}
 ```
@@ -1318,15 +1318,15 @@ Documento crudo en MongoDB, tal como lo devuelve la coleccion `users`:
 
 ```json
 {
-  "_id": "6a9a0b73b73c8e2cee1828eb",
+  "_id": "6a9a0e98a9db0f0c84169da6",
   "first_name": "Fernando",
   "last_name": "Sanchez",
   "email": "admin@softwareai.com.mx",
-  "password": "$2b$10$tShfvKAsQYpqHeJAVr.LXeaiemmsd4tCG7lO5.a4oRcBbfH.8h7X2",
+  "password": "$2b$10$qnxbem8R4E4FQo6dW7Tok.d.x0QcGJH5DczEzNfLjXurlnNRDQOqG",
   "role": "admin",
   "__v": 0,
-  "createdAt": "2026-09-04T00:06:11.641Z",
-  "updatedAt": "2026-09-04T00:06:11.641Z"
+  "createdAt": "2026-09-04T00:19:36.734Z",
+  "updatedAt": "2026-09-04T00:19:36.734Z"
 }
 ```
 
@@ -1344,7 +1344,7 @@ GET /sessions/current
 {
   "status": "success",
   "payload": {
-    "id": "6a9a0b73b73c8e2cee1828eb",
+    "id": "6a9a0e98a9db0f0c84169da6",
     "first_name": "Fernando",
     "last_name": "Sanchez",
     "email": "admin@softwareai.com.mx",

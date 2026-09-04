@@ -34,12 +34,12 @@ SoftwareAI - Plataforma de Inscripciones a Cursos
 
 □ 00 - Salud
 └ GET /health
-  GET http://localhost:8081/api/health [200 OK, 278B, 57ms]
+  GET http://localhost:8081/api/health [200 OK, 278B, 49ms]
   √  200 y servidor activo
 
 □ 01 - Autenticacion
 └ Registro (intenta role admin, debe quedar user)
-  POST http://localhost:8081/api/sessions/register [201 Created, 381B, 82ms]
+  POST http://localhost:8081/api/sessions/register [201 Created, 381B, 93ms]
   √  201 creado
   √  el rol enviado se ignora
   √  el email se normaliza a minusculas
@@ -51,12 +51,12 @@ SoftwareAI - Plataforma de Inscripciones a Cursos
   √  mensaje claro
 
 └ Registro sin campos (400)
-  POST http://localhost:8081/api/sessions/register [400 Bad Request, 301B, 3ms]
+  POST http://localhost:8081/api/sessions/register [400 Bad Request, 301B, 4ms]
   √  400
 </pre></div>
       <div class="card"><h2>Resumen final</h2><pre>
 └ Inscribirse a curso cancelado (400)
-  POST http://localhost:8081/api/events/6a9a098ea3eee089401442c1/tickets [400 Bad Request, 321B, 10ms]
+  POST http://localhost:8081/api/events/6a9a0ba2a3eee089401445a7/tickets [400 Bad Request, 321B, 10ms]
   √  400 no disponible
 
 ┌─────────────────────────┬──────────────────┬──────────────────┐
@@ -76,7 +76,7 @@ SoftwareAI - Plataforma de Inscripciones a Cursos
 ├───────────────────────────────────────────────────────────────┤
 │ total data received: 16.69kB (approx)                         │
 ├───────────────────────────────────────────────────────────────┤
-│ average response time: 27ms [min: 3ms, max: 82ms, s.d.: 27ms] │
+│ average response time: 29ms [min: 3ms, max: 93ms, s.d.: 31ms] │
 └───────────────────────────────────────────────────────────────┘</pre></div>
     </div>
 
