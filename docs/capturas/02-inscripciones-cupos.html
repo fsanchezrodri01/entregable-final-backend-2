@@ -1,0 +1,91 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<title>2. Inscripciones, duplicados y control de cupo</title><style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #0d1117; color: #c9d1d9;
+       font-family: 'Cascadia Code', 'Consolas', 'Menlo', monospace; font-size: 13px; }
+.wrap { padding: 22px 26px; }
+h1 { font-size: 17px; margin: 0 0 4px; color: #58a6ff; font-family: system-ui, sans-serif; }
+.sub { font-size: 12px; color: #8b949e; margin-bottom: 18px; font-family: system-ui, sans-serif; }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 6px;
+        margin-bottom: 12px; overflow: hidden; }
+.card h2 { font-size: 12px; margin: 0; padding: 8px 12px; background: #1f2630;
+           border-bottom: 1px solid #30363d; color: #e6edf3; font-family: system-ui, sans-serif;
+           font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+.badge { font-size: 11px; padding: 1px 8px; border-radius: 10px; font-weight: 700; }
+.b2 { background: #12341f; color: #3fb950; border: 1px solid #238636; }
+.b4 { background: #3a2416; color: #f0883e; border: 1px solid #9e5622; }
+pre { margin: 0; padding: 10px 12px; white-space: pre-wrap; word-break: break-word;
+      line-height: 1.45; font-size: 12px; }
+.req { color: #7ee787; background: #10151c; border-bottom: 1px solid #21262d; }
+.key { color: #79c0ff; }
+.str { color: #a5d6ff; }
+.num { color: #f0883e; }
+.hash { color: #ff7b72; font-weight: 700; }
+.ok { color: #3fb950; }
+.foot { font-size: 11px; color: #8b949e; margin-top: 14px; font-family: system-ui, sans-serif; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+</style></head><body>
+<div class="wrap"><h1>2. Inscripciones, duplicados y control de cupo</h1><div class="sub">Curso con capacidad 2. El cupo disponible se calcula sumando las inscripciones no canceladas.</div>
+
+    <div class="card">
+      <h2><span>Inscripcion exitosa</span> <span class="badge b2">HTTP 201</span></h2>
+      <pre class="req">POST /events/6a9a0a00a3eee089401443db/tickets
+
+{&quot;quantity&quot;:1}</pre>
+      <pre>{
+  &quot;status&quot;: &quot;success&quot;,
+  &quot;message&quot;: &quot;Inscripcion realizada correctamente&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: &quot;6a9a0a01a3eee089401443eb&quot;,
+    &quot;event&quot;: {
+      &quot;id&quot;: &quot;6a9a0a00a3eee089401443db&quot;,
+      &quot;title&quot;: &quot;Workshop de prueba de cupos&quot;,
+      &quot;format&quot;: &quot;workshop&quot;,
+      &quot;level&quot;: &quot;intermediate&quot;,
+      &quot;date&quot;: &quot;2027-06-01T10:00:00.000Z&quot;,
+      &quot;location&quot;: &quot;Online&quot;,
+      &quot;status&quot;: &quot;published&quot;
+    },
+  ... (8 lineas mas)</pre>
+    </div>
+    <div class="card">
+      <h2><span>Inscripcion duplicada del mismo usuario</span> <span class="badge b4">HTTP 409</span></h2>
+      <pre class="req">POST /events/6a9a0a00a3eee089401443db/tickets
+
+{&quot;quantity&quot;:1}</pre>
+      <pre>{
+  &quot;status&quot;: &quot;error&quot;,
+  &quot;message&quot;: &quot;Ya tienes una inscripcion activa a este curso&quot;
+}</pre>
+    </div>
+    <div class="card">
+      <h2><span>Se piden mas lugares de los disponibles</span> <span class="badge b4">HTTP 409</span></h2>
+      <pre class="req">POST /events/6a9a0a00a3eee089401443db/tickets
+
+{&quot;quantity&quot;:5}</pre>
+      <pre>{
+  &quot;status&quot;: &quot;error&quot;,
+  &quot;message&quot;: &quot;No hay cupos suficientes disponibles (quedan 1)&quot;
+}</pre>
+    </div>
+    <div class="card">
+      <h2><span>El cupo liberado permite una nueva inscripcion</span> <span class="badge b2">HTTP 201</span></h2>
+      <pre class="req">POST /events/6a9a0a00a3eee089401443db/tickets
+
+{&quot;quantity&quot;:1}</pre>
+      <pre>{
+  &quot;status&quot;: &quot;success&quot;,
+  &quot;message&quot;: &quot;Inscripcion realizada correctamente&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: &quot;6a9a0a05a3eee08940144416&quot;,
+    &quot;event&quot;: {
+      &quot;id&quot;: &quot;6a9a0a00a3eee089401443db&quot;,
+      &quot;title&quot;: &quot;Workshop de prueba de cupos&quot;,
+      &quot;format&quot;: &quot;workshop&quot;,
+      &quot;level&quot;: &quot;intermediate&quot;,
+      &quot;date&quot;: &quot;2027-06-01T10:00:00.000Z&quot;,
+      &quot;location&quot;: &quot;Online&quot;,
+  ... (10 lineas mas)</pre>
+    </div>
+
+</div></body></html>

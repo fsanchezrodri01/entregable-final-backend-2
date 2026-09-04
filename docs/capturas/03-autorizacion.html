@@ -1,0 +1,72 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<title>3. Autorizacion por rol y por propiedad</title><style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #0d1117; color: #c9d1d9;
+       font-family: 'Cascadia Code', 'Consolas', 'Menlo', monospace; font-size: 13px; }
+.wrap { padding: 22px 26px; }
+h1 { font-size: 17px; margin: 0 0 4px; color: #58a6ff; font-family: system-ui, sans-serif; }
+.sub { font-size: 12px; color: #8b949e; margin-bottom: 18px; font-family: system-ui, sans-serif; }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 6px;
+        margin-bottom: 12px; overflow: hidden; }
+.card h2 { font-size: 12px; margin: 0; padding: 8px 12px; background: #1f2630;
+           border-bottom: 1px solid #30363d; color: #e6edf3; font-family: system-ui, sans-serif;
+           font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+.badge { font-size: 11px; padding: 1px 8px; border-radius: 10px; font-weight: 700; }
+.b2 { background: #12341f; color: #3fb950; border: 1px solid #238636; }
+.b4 { background: #3a2416; color: #f0883e; border: 1px solid #9e5622; }
+pre { margin: 0; padding: 10px 12px; white-space: pre-wrap; word-break: break-word;
+      line-height: 1.45; font-size: 12px; }
+.req { color: #7ee787; background: #10151c; border-bottom: 1px solid #21262d; }
+.key { color: #79c0ff; }
+.str { color: #a5d6ff; }
+.num { color: #f0883e; }
+.hash { color: #ff7b72; font-weight: 700; }
+.ok { color: #3fb950; }
+.foot { font-size: 11px; color: #8b949e; margin-top: 14px; font-family: system-ui, sans-serif; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+</style></head><body>
+<div class="wrap"><h1>3. Autorizacion por rol y por propiedad</h1><div class="sub">Estar autenticado no alcanza: un organizador solo gestiona sus propios cursos.</div>
+
+    <div class="card">
+      <h2><span>Un organizador intenta editar un curso ajeno</span> <span class="badge b4">HTTP 403</span></h2>
+      <pre class="req">PUT /events/6a9a0a00a3eee089401443db
+
+{&quot;title&quot;:&quot;Curso secuestrado&quot;}</pre>
+      <pre>{
+  &quot;status&quot;: &quot;error&quot;,
+  &quot;message&quot;: &quot;No tienes permisos para gestionar este curso&quot;
+}</pre>
+    </div>
+    <div class="card">
+      <h2><span>Se intenta reducir la capacidad por debajo de las inscripciones activas</span> <span class="badge b4">HTTP 400</span></h2>
+      <pre class="req">PUT /events/6a9a0a00a3eee089401443db
+
+{&quot;capacity&quot;:1}</pre>
+      <pre>{
+  &quot;status&quot;: &quot;error&quot;,
+  &quot;message&quot;: &quot;La capacidad no puede ser menor a las inscripciones activas (2)&quot;
+}</pre>
+    </div>
+    <div class="card">
+      <h2><span>Listado paginado publico</span> <span class="badge b2">HTTP 200</span></h2>
+      <pre class="req">GET /events?status=published&amp;page=1&amp;limit=3</pre>
+      <pre>{
+  &quot;status&quot;: &quot;success&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: &quot;6a9a09f8a58fbcce6dd66e81&quot;,
+      &quot;title&quot;: &quot;Workshop: Prompts efectivos para equipos de datos&quot;,
+      &quot;description&quot;: &quot;Como dirigir asistentes de IA para explorar datasets, documentar modelos y generar consultas SQL confiables.&quot;,
+      &quot;category&quot;: {
+        &quot;id&quot;: &quot;6a9a09f8a58fbcce6dd66e79&quot;,
+        &quot;name&quot;: &quot;Ingenieria de Datos&quot;,
+        &quot;slug&quot;: &quot;ingenieria-de-datos&quot;,
+        &quot;description&quot;: &quot;Pipelines, modelado y calidad de datos.&quot;
+      },
+      &quot;format&quot;: &quot;workshop&quot;,
+      &quot;level&quot;: &quot;beginner&quot;,
+      &quot;date&quot;: &quot;2026-09-10T23:59:52.016Z&quot;,
+  ... (65 lineas mas)</pre>
+    </div>
+
+</div></body></html>

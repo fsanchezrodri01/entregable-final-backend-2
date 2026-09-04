@@ -1,0 +1,852 @@
+{
+  "info": {
+    "name": "SoftwareAI - Plataforma de Inscripciones a Cursos",
+    "description": "Flujo completo de la API: registro, login, roles, cursos, inscripciones, cupos y cancelaciones.\n\nLas peticiones estan ordenadas para ejecutarse con el Collection Runner de arriba hacia abajo. Las cookies de sesion las maneja Postman automaticamente; los ids se guardan solos en variables de la coleccion.\n\nAntes de correr: `npm run seed`.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8081/api" },
+    { "key": "adminEmail", "value": "admin@softwareai.com.mx" },
+    { "key": "adminPass", "value": "Admin123" },
+    { "key": "organizerEmail", "value": "instructor@softwareai.com.mx" },
+    { "key": "organizerPass", "value": "Organizer123" },
+    { "key": "organizer2Email", "value": "instructor2@softwareai.com.mx" },
+    { "key": "organizer2Pass", "value": "Organizer123" },
+    { "key": "userEmail", "value": "estudiante@softwareai.com.mx" },
+    { "key": "userPass", "value": "Usuario123" },
+    { "key": "categoryId", "value": "" },
+    { "key": "eventId", "value": "" },
+    { "key": "ticketId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "00 - Salud",
+      "item": [
+        {
+          "name": "GET /health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 y servidor activo', () => {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json().status).to.eql('ok');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": { "method": "GET", "url": "{{baseUrl}}/health" }
+        }
+      ]
+    },
+    {
+      "name": "01 - Autenticacion",
+      "item": [
+        {
+          "name": "Registro (intenta role admin, debe quedar user)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('201 creado', () => pm.response.to.have.status(201));",
+                  "pm.test('el rol enviado se ignora', () => pm.expect(body.payload.role).to.eql('user'));",
+                  "pm.test('el email se normaliza a minusculas', () => pm.expect(body.payload.email).to.eql('ana@mail.com'));",
+                  "pm.test('no devuelve password', () => pm.expect(pm.response.text()).to.not.include('password'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"Ana\",\n  \"last_name\": \"Perez\",\n  \"email\": \"Ana@Mail.com\",\n  \"password\": \"Secreta123\",\n  \"role\": \"admin\"\n}"
+            },
+            "url": "{{baseUrl}}/sessions/register"
+          }
+        },
+        {
+          "name": "Registro duplicado (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('409 conflicto', () => pm.response.to.have.status(409));",
+                  "pm.test('mensaje claro', () => pm.expect(pm.response.json().message).to.include('ya esta registrado'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"Ana\",\n  \"last_name\": \"Perez\",\n  \"email\": \"ana@mail.com\",\n  \"password\": \"Secreta123\"\n}"
+            },
+            "url": "{{baseUrl}}/sessions/register"
+          }
+        },
+        {
+          "name": "Registro sin campos (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('400', () => pm.response.to.have.status(400));"]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"incompleto@mail.com\"\n}" },
+            "url": "{{baseUrl}}/sessions/register"
+          }
+        },
+        {
+          "name": "Registro con email invalido (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('400', () => pm.response.to.have.status(400));",
+                  "pm.test('menciona el formato', () => pm.expect(pm.response.json().message).to.include('formato'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"Test\",\n  \"last_name\": \"Invalido\",\n  \"email\": \"noesunmail\",\n  \"password\": \"Secreta123\"\n}"
+            },
+            "url": "{{baseUrl}}/sessions/register"
+          }
+        },
+        {
+          "name": "Login incorrecto (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('401', () => pm.response.to.have.status(401));",
+                  "pm.test('no revela si el email existe', () => pm.expect(pm.response.json().message).to.eql('Credenciales invalidas'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"ana@mail.com\",\n  \"password\": \"claveIncorrecta\"\n}" },
+            "url": "{{baseUrl}}/sessions/login"
+          }
+        },
+        {
+          "name": "Login correcto (cookie httpOnly)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "pm.test('el token no viaja en el body', () => pm.expect(pm.response.text()).to.not.include('eyJ'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"ana@mail.com\",\n  \"password\": \"Secreta123\"\n}" },
+            "url": "{{baseUrl}}/sessions/login"
+          }
+        },
+        {
+          "name": "GET /sessions/current",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "pm.test('sin password', () => pm.expect(pm.response.text()).to.not.include('password'));"
+                ]
+              }
+            }
+          ],
+          "request": { "method": "GET", "url": "{{baseUrl}}/sessions/current" }
+        },
+        {
+          "name": "Logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('200', () => pm.response.to.have.status(200));"] }
+            }
+          ],
+          "request": { "method": "POST", "url": "{{baseUrl}}/sessions/logout" }
+        },
+        {
+          "name": "GET /current tras logout (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('401 no autenticado', () => pm.response.to.have.status(401));"] }
+            }
+          ],
+          "request": { "method": "GET", "url": "{{baseUrl}}/sessions/current" }
+        }
+      ]
+    },
+    {
+      "name": "02 - Cursos y roles",
+      "item": [
+        {
+          "name": "Listado publico paginado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "pm.test('estructura paginada plana', () => {",
+                  "  pm.expect(body).to.have.all.keys('status', 'data', 'page', 'limit', 'total', 'totalPages');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": { "method": "GET", "url": "{{baseUrl}}/events?status=published&page=1&limit=3" }
+        },
+        {
+          "name": "Tope de limit (pide 999, aplica 50)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('limit tope 50', () => pm.expect(pm.response.json().limit).to.eql(50));"]
+              }
+            }
+          ],
+          "request": { "method": "GET", "url": "{{baseUrl}}/events?limit=999" }
+        },
+        {
+          "name": "Login como user",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{userEmail}}\",\n  \"password\": \"{{userPass}}\"\n}" },
+            "url": "{{baseUrl}}/sessions/login"
+          }
+        },
+        {
+          "name": "user intenta crear curso (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('403 sin permisos', () => pm.response.to.have.status(403));"] }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Curso no autorizado\",\n  \"description\": \"No deberia crearse\",\n  \"category\": \"000000000000000000000000\",\n  \"date\": \"2027-06-01T10:00:00.000Z\",\n  \"location\": \"Online\",\n  \"capacity\": 10\n}"
+            },
+            "url": "{{baseUrl}}/events"
+          }
+        },
+        {
+          "name": "user pide status=draft (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('403: no ve borradores ajenos', () => pm.response.to.have.status(403));"] }
+            }
+          ],
+          "request": { "method": "GET", "url": "{{baseUrl}}/events?status=draft" }
+        },
+        {
+          "name": "Login como organizer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{organizerEmail}}\",\n  \"password\": \"{{organizerPass}}\"\n}" },
+            "url": "{{baseUrl}}/sessions/login"
+          }
+        },
+        {
+          "name": "Guardar categoria en variable",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const cat = pm.response.json().payload.find(c => c.slug === 'backend');",
+                  "pm.collectionVariables.set('categoryId', cat.id);",
+                  "pm.test('categoria encontrada', () => pm.expect(cat.id).to.be.a('string'));"
+                ]
+              }
+            }
+          ],
+          "request": { "method": "GET", "url": "{{baseUrl}}/categories" }
+        },
+        {
+          "name": "Crear curso con fecha pasada (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('400', () => pm.response.to.have.status(400));",
+                  "pm.test('rechaza fecha pasada', () => pm.expect(pm.response.json().message).to.include('fecha pasada'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Curso con fecha pasada\",\n  \"description\": \"No deberia crearse\",\n  \"category\": \"{{categoryId}}\",\n  \"date\": \"2020-01-01T10:00:00.000Z\",\n  \"location\": \"Online\",\n  \"capacity\": 10\n}"
+            },
+            "url": "{{baseUrl}}/events"
+          }
+        },
+        {
+          "name": "Crear curso con capacidad 0 (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('400 capacidad invalida', () => pm.response.to.have.status(400));"]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Curso sin cupo\",\n  \"description\": \"No deberia crearse\",\n  \"category\": \"{{categoryId}}\",\n  \"date\": \"2027-06-01T10:00:00.000Z\",\n  \"location\": \"Online\",\n  \"capacity\": 0\n}"
+            },
+            "url": "{{baseUrl}}/events"
+          }
+        },
+        {
+          "name": "Crear curso valido (capacidad 2)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.collectionVariables.set('eventId', body.payload.id);",
+                  "pm.test('201 creado', () => pm.response.to.have.status(201));",
+                  "pm.test('el organizador es quien lo crea', () => pm.expect(body.payload.organizer.email).to.eql(pm.collectionVariables.get('organizerEmail')));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Workshop de prueba de cupos\",\n  \"description\": \"Curso creado por la coleccion para verificar el control de cupo\",\n  \"category\": \"{{categoryId}}\",\n  \"date\": \"2027-06-01T10:00:00.000Z\",\n  \"location\": \"Online\",\n  \"capacity\": 2,\n  \"price\": 0,\n  \"status\": \"published\",\n  \"format\": \"workshop\",\n  \"level\": \"intermediate\"\n}"
+            },
+            "url": "{{baseUrl}}/events"
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - Inscripciones y cupos",
+      "item": [
+        {
+          "name": "Inscripcion sin sesion (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('401', () => pm.response.to.have.status(401));"] }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "currentUser=" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"quantity\": 1\n}" },
+            "url": "{{baseUrl}}/events/{{eventId}}/tickets"
+          }
+        },
+        {
+          "name": "Login como user",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{userEmail}}\",\n  \"password\": \"{{userPass}}\"\n}" },
+            "url": "{{baseUrl}}/sessions/login"
+          }
+        },
+        {
+          "name": "Inscripcion a curso inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('404', () => pm.response.to.have.status(404));"] }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"quantity\": 1\n}" },
+            "url": "{{baseUrl}}/events/000000000000000000000000/tickets"
+          }
+        },
+        {
+          "name": "Inscripcion exitosa (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.collectionVariables.set('ticketId', body.payload.id);",
+                  "pm.test('201 creada', () => pm.response.to.have.status(201));",
+                  "pm.test('nace confirmada', () => pm.expect(body.payload.status).to.eql('confirmed'));",
+                  "pm.test('trae codigo de reserva', () => pm.expect(body.payload.reservationCode).to.match(/^SAI-/));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"quantity\": 1\n}" },
+            "url": "{{baseUrl}}/events/{{eventId}}/tickets"
+          }
+        },
+        {
+          "name": "Inscripcion duplicada (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('409 duplicada', () => pm.response.to.have.status(409));",
+                  "pm.test('mensaje claro', () => pm.expect(pm.response.json().message).to.include('inscripcion activa'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"quantity\": 1\n}" },
+            "url": "{{baseUrl}}/events/{{eventId}}/tickets"
+          }
+        },
+        {
+          "name": "GET /tickets/my-tickets",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "pm.test('incluye datos del curso', () => pm.expect(pm.response.json().payload[0].event.title).to.be.a('string'));",
+                  "pm.test('sin password de nadie', () => pm.expect(pm.response.text()).to.not.include('password'));"
+                ]
+              }
+            }
+          ],
+          "request": { "method": "GET", "url": "{{baseUrl}}/tickets/my-tickets" }
+        },
+        {
+          "name": "Login como organizer2 (para agotar el cupo)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{organizer2Email}}\",\n  \"password\": \"{{organizer2Pass}}\"\n}" },
+            "url": "{{baseUrl}}/sessions/login"
+          }
+        },
+        {
+          "name": "Pedir mas lugares de los disponibles (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('409 sin cupo', () => pm.response.to.have.status(409));",
+                  "pm.test('dice cuantos quedan', () => pm.expect(pm.response.json().message).to.include('quedan'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"quantity\": 5\n}" },
+            "url": "{{baseUrl}}/events/{{eventId}}/tickets"
+          }
+        },
+        {
+          "name": "Tomar el ultimo cupo (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('201', () => pm.response.to.have.status(201));"] }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"quantity\": 1\n}" },
+            "url": "{{baseUrl}}/events/{{eventId}}/tickets"
+          }
+        },
+        {
+          "name": "organizer2 intenta cancelar ticket ajeno (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('403 recurso ajeno', () => pm.response.to.have.status(403));"] }
+            }
+          ],
+          "request": { "method": "PATCH", "url": "{{baseUrl}}/tickets/{{ticketId}}/cancel" }
+        },
+        {
+          "name": "user comun ve inscriptos del curso (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('403', () => pm.response.to.have.status(403));"] }
+            }
+          ],
+          "request": { "method": "GET", "url": "{{baseUrl}}/events/{{eventId}}/tickets" }
+        },
+        {
+          "name": "Login como user (cancelar lo propio)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{userEmail}}\",\n  \"password\": \"{{userPass}}\"\n}" },
+            "url": "{{baseUrl}}/sessions/login"
+          }
+        },
+        {
+          "name": "Cancelar inscripcion propia (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "pm.test('queda cancelada, no borrada', () => pm.expect(body.payload.status).to.eql('cancelled'));",
+                  "pm.test('registra cancelledAt', () => pm.expect(body.payload.cancelledAt).to.not.be.null);"
+                ]
+              }
+            }
+          ],
+          "request": { "method": "PATCH", "url": "{{baseUrl}}/tickets/{{ticketId}}/cancel" }
+        },
+        {
+          "name": "Cancelar dos veces (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('400 ya cancelada', () => pm.response.to.have.status(400));"] }
+            }
+          ],
+          "request": { "method": "PATCH", "url": "{{baseUrl}}/tickets/{{ticketId}}/cancel" }
+        },
+        {
+          "name": "Cupo liberado: nueva inscripcion funciona (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201: el lugar cancelado volvio a estar disponible', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"quantity\": 1\n}" },
+            "url": "{{baseUrl}}/events/{{eventId}}/tickets"
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 - Propiedad y administracion",
+      "item": [
+        {
+          "name": "Login como organizer2",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{organizer2Email}}\",\n  \"password\": \"{{organizer2Pass}}\"\n}" },
+            "url": "{{baseUrl}}/sessions/login"
+          }
+        },
+        {
+          "name": "organizer2 intenta editar curso ajeno (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('403 no es su curso', () => pm.response.to.have.status(403));"] }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Curso secuestrado\"\n}" },
+            "url": "{{baseUrl}}/events/{{eventId}}"
+          }
+        },
+        {
+          "name": "organizer2 ve inscriptos de curso ajeno (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('403', () => pm.response.to.have.status(403));"] }
+            }
+          ],
+          "request": { "method": "GET", "url": "{{baseUrl}}/events/{{eventId}}/tickets" }
+        },
+        {
+          "name": "Login como organizer dueno",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{organizerEmail}}\",\n  \"password\": \"{{organizerPass}}\"\n}" },
+            "url": "{{baseUrl}}/sessions/login"
+          }
+        },
+        {
+          "name": "El dueno ve los inscriptos de su curso",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "pm.test('sin password de los inscriptos', () => pm.expect(pm.response.text()).to.not.include('password'));"
+                ]
+              }
+            }
+          ],
+          "request": { "method": "GET", "url": "{{baseUrl}}/events/{{eventId}}/tickets" }
+        },
+        {
+          "name": "Reducir capacidad por debajo de los inscriptos (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('400', () => pm.response.to.have.status(400));",
+                  "pm.test('protege las inscripciones activas', () => pm.expect(pm.response.json().message).to.include('inscripciones activas'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"capacity\": 1\n}" },
+            "url": "{{baseUrl}}/events/{{eventId}}"
+          }
+        },
+        {
+          "name": "Mover la fecha al pasado (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('400', () => pm.response.to.have.status(400));"] }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"date\": \"2020-01-01T10:00:00.000Z\"\n}" },
+            "url": "{{baseUrl}}/events/{{eventId}}"
+          }
+        },
+        {
+          "name": "Login como admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPass}}\"\n}" },
+            "url": "{{baseUrl}}/sessions/login"
+          }
+        },
+        {
+          "name": "admin edita curso de otro organizador (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200: el admin si puede', () => pm.response.to.have.status(200));",
+                  "pm.test('capacidad ampliada', () => pm.expect(pm.response.json().payload.capacity).to.eql(20));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"capacity\": 20,\n  \"price\": 990\n}" },
+            "url": "{{baseUrl}}/events/{{eventId}}"
+          }
+        },
+        {
+          "name": "admin lista usuarios",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "pm.test('ningun password expuesto', () => pm.expect(pm.response.text()).to.not.include('password'));"
+                ]
+              }
+            }
+          ],
+          "request": { "method": "GET", "url": "{{baseUrl}}/users?limit=5" }
+        },
+        {
+          "name": "admin crea categoria (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('201', () => pm.response.to.have.status(201));"] }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"QA y Pruebas con IA\",\n  \"description\": \"Pruebas automatizadas asistidas por inteligencia artificial\"\n}"
+            },
+            "url": "{{baseUrl}}/categories"
+          }
+        },
+        {
+          "name": "Borrar categoria con cursos asociados (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('409 integridad referencial', () => pm.response.to.have.status(409));"] }
+            }
+          ],
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/categories/{{categoryId}}" }
+        },
+        {
+          "name": "admin cancela el curso (cascada)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200', () => pm.response.to.have.status(200));",
+                  "pm.test('curso cancelado', () => pm.expect(pm.response.json().payload.status).to.eql('cancelled'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"cancelled\"\n}" },
+            "url": "{{baseUrl}}/events/{{eventId}}/status"
+          }
+        },
+        {
+          "name": "Las inscripciones quedaron canceladas en cascada",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const tickets = pm.response.json().payload;",
+                  "pm.test('ninguna sigue activa', () => {",
+                  "  pm.expect(tickets.every(t => t.status === 'cancelled')).to.be.true;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": { "method": "GET", "url": "{{baseUrl}}/events/{{eventId}}/tickets" }
+        },
+        {
+          "name": "Inscribirse a curso cancelado (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('400 no disponible', () => pm.response.to.have.status(400));"] }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"quantity\": 1\n}" },
+            "url": "{{baseUrl}}/events/{{eventId}}/tickets"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -72,17 +72,37 @@ docker run -d --name mongodb -p 27017:27017 mongo
 
 ## Cómo ejecutar
 
+Levantar la API:
+
 ```bash
 npm start
 ```
+
+Modo desarrollo, con recarga automática:
 
 ```bash
 npm run dev
 ```
 
+Cargar el catálogo y los usuarios de prueba:
+
 ```bash
 npm run seed
 ```
+
+Correr la colección de Postman completa:
+
+```bash
+npm run postman
+```
+
+Regenerar la evidencia contra la API corriendo:
+
+```bash
+npm run evidencia
+```
+
+El servidor queda en `http://localhost:8081` (o el puerto que definas en `PORT`).
 
 `npm run seed` **borra y recarga** la base con el catálogo de SoftwareAI y estos usuarios de prueba:
 
@@ -113,6 +133,10 @@ src/
 ├── middlewares/            # authenticate, authorize, notFound, errorHandler
 ├── utils/                  # hash, jwt, validators, pagination, reservationCode, httpError
 └── scripts/seed.js         # datos de prueba
+
+postman/                    # coleccion de Postman del flujo completo
+docs/                       # evidencia: transcripcion, corrida de Newman y capturas
+scripts/                    # generadores de la evidencia
 ```
 
 **Regla de oro de la arquitectura:** el flujo es
@@ -274,6 +298,53 @@ Nodemailer envía un correo al confirmar y al cancelar una inscripción, con el 
 **Si el envío falla, la inscripción sigue siendo válida**: el correo es una notificación, no la
 operación principal, y un SMTP caído no debe impedir inscribirse. Sin `MAIL_HOST` configurado, los
 envíos se registran en consola.
+
+## Pruebas y evidencia
+
+La API se verifica de dos formas, y ambas se pueden reejecutar.
+
+### Colección de Postman
+
+[`postman/SoftwareAI.postman_collection.json`](postman/SoftwareAI.postman_collection.json) recorre
+el flujo completo con sus assertions. Se importa en Postman o se corre desde la terminal:
+
+```bash
+npm run postman
+```
+
+El comando recarga la base antes de correr: la colección parte de datos limpios.
+Última corrida: **50 requests, 66 assertions, 0 fallos**
+([`docs/newman-run.txt`](docs/newman-run.txt)).
+
+### Transcripción y capturas
+
+```bash
+npm run evidencia
+```
+
+Recarga la base, ejecuta los casos contra la API y reescribe
+[`docs/EVIDENCIA.md`](docs/EVIDENCIA.md) con el request, el código HTTP y la respuesta de cada uno.
+Las imágenes están en [`docs/capturas/`](docs/capturas) — ver el
+[índice de evidencia](docs/README.md) — y se rehacen con `npm run capturas`.
+
+### Casos cubiertos
+
+| # | Caso | Resultado |
+|---|------|-----------|
+| 1 | registro → login → `/current` → logout → `/current` | `401` después del logout |
+| 2 | `user` intenta crear un curso | `403` |
+| 3 | `organizer` crea curso → `user` se inscribe | `201` y cupo descontado |
+| 4 | inscripción repetida al mismo curso | `409` |
+| 5 | inscripción sin cupo | `409` indicando cuántos lugares quedan |
+| 6 | el `user` cancela | cupo liberado y nueva inscripción posible |
+| 7 | `organizer` modifica curso ajeno | `403` |
+| 8 | `admin` modifica curso de otro organizador | `200` |
+| 9 | respuestas de usuario, curso e inscripción | ninguna contiene `password` |
+| 10 | `?status=published&page=2&limit=5` | estructura paginada |
+
+Extras verificados: el rol enviado en el registro se ignora, el email se normaliza, `limit` se topa
+en 50, no se reduce la capacidad por debajo de las inscripciones activas, no se borra una categoría
+con cursos asociados y cancelar un curso cancela sus inscripciones en cascada.
 
 ## Códigos de estado
 

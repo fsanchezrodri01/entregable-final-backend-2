@@ -1,0 +1,85 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<title>1. Registro, sesion y logout</title><style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #0d1117; color: #c9d1d9;
+       font-family: 'Cascadia Code', 'Consolas', 'Menlo', monospace; font-size: 13px; }
+.wrap { padding: 22px 26px; }
+h1 { font-size: 17px; margin: 0 0 4px; color: #58a6ff; font-family: system-ui, sans-serif; }
+.sub { font-size: 12px; color: #8b949e; margin-bottom: 18px; font-family: system-ui, sans-serif; }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 6px;
+        margin-bottom: 12px; overflow: hidden; }
+.card h2 { font-size: 12px; margin: 0; padding: 8px 12px; background: #1f2630;
+           border-bottom: 1px solid #30363d; color: #e6edf3; font-family: system-ui, sans-serif;
+           font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+.badge { font-size: 11px; padding: 1px 8px; border-radius: 10px; font-weight: 700; }
+.b2 { background: #12341f; color: #3fb950; border: 1px solid #238636; }
+.b4 { background: #3a2416; color: #f0883e; border: 1px solid #9e5622; }
+pre { margin: 0; padding: 10px 12px; white-space: pre-wrap; word-break: break-word;
+      line-height: 1.45; font-size: 12px; }
+.req { color: #7ee787; background: #10151c; border-bottom: 1px solid #21262d; }
+.key { color: #79c0ff; }
+.str { color: #a5d6ff; }
+.num { color: #f0883e; }
+.hash { color: #ff7b72; font-weight: 700; }
+.ok { color: #3fb950; }
+.foot { font-size: 11px; color: #8b949e; margin-top: 14px; font-family: system-ui, sans-serif; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+</style></head><body>
+<div class="wrap"><h1>1. Registro, sesion y logout</h1><div class="sub">Salidas reales de la API. El rol enviado en el body se ignora, el email se normaliza y ninguna respuesta incluye la contrasena.</div>
+
+    <div class="card">
+      <h2><span>Registro: el rol enviado en el body se ignora y el email se normaliza</span> <span class="badge b2">HTTP 201</span></h2>
+      <pre class="req">POST /sessions/register
+
+{&quot;first_name&quot;:&quot;Ana&quot;,&quot;last_name&quot;:&quot;Perez&quot;,&quot;email&quot;:&quot;Ana@Mail.com&quot;,&quot;password&quot;:&quot;Secreta123&quot;,&quot;role&quot;:&quot;admin&quot;}</pre>
+      <pre>{
+  &quot;status&quot;: &quot;success&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: &quot;6a9a09f8a3eee089401443ba&quot;,
+    &quot;first_name&quot;: &quot;Ana&quot;,
+    &quot;last_name&quot;: &quot;Perez&quot;,
+    &quot;email&quot;: &quot;ana@mail.com&quot;,
+    &quot;role&quot;: &quot;user&quot;
+  }
+}</pre>
+    </div>
+    <div class="card">
+      <h2><span>Registro duplicado</span> <span class="badge b4">HTTP 409</span></h2>
+      <pre class="req">POST /sessions/register
+
+{&quot;first_name&quot;:&quot;Ana&quot;,&quot;last_name&quot;:&quot;Perez&quot;,&quot;email&quot;:&quot;ana@mail.com&quot;,&quot;password&quot;:&quot;Secreta123&quot;}</pre>
+      <pre>{
+  &quot;status&quot;: &quot;error&quot;,
+  &quot;message&quot;: &quot;El email ya esta registrado&quot;
+}</pre>
+    </div>
+    <div class="card">
+      <h2><span>GET /sessions/current con sesion</span> <span class="badge b2">HTTP 200</span></h2>
+      <pre class="req">GET /sessions/current</pre>
+      <pre>{
+  &quot;status&quot;: &quot;success&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: &quot;6a9a09f8a3eee089401443ba&quot;,
+    &quot;first_name&quot;: &quot;Ana&quot;,
+    &quot;last_name&quot;: &quot;Perez&quot;,
+    &quot;email&quot;: &quot;ana@mail.com&quot;,
+    &quot;role&quot;: &quot;user&quot;
+  }
+}</pre>
+    </div>
+    <div class="card">
+      <h2><span>GET /sessions/current despues del logout</span> <span class="badge b2">HTTP 200</span></h2>
+      <pre class="req">GET /sessions/current</pre>
+      <pre>{
+  &quot;status&quot;: &quot;success&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: &quot;6a9a09f8a3eee089401443ba&quot;,
+    &quot;first_name&quot;: &quot;Ana&quot;,
+    &quot;last_name&quot;: &quot;Perez&quot;,
+    &quot;email&quot;: &quot;ana@mail.com&quot;,
+    &quot;role&quot;: &quot;user&quot;
+  }
+}</pre>
+    </div>
+
+</div></body></html>

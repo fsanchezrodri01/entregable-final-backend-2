@@ -1,0 +1,83 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<title>5. Coleccion de Postman ejecutada con Newman</title><style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #0d1117; color: #c9d1d9;
+       font-family: 'Cascadia Code', 'Consolas', 'Menlo', monospace; font-size: 13px; }
+.wrap { padding: 22px 26px; }
+h1 { font-size: 17px; margin: 0 0 4px; color: #58a6ff; font-family: system-ui, sans-serif; }
+.sub { font-size: 12px; color: #8b949e; margin-bottom: 18px; font-family: system-ui, sans-serif; }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 6px;
+        margin-bottom: 12px; overflow: hidden; }
+.card h2 { font-size: 12px; margin: 0; padding: 8px 12px; background: #1f2630;
+           border-bottom: 1px solid #30363d; color: #e6edf3; font-family: system-ui, sans-serif;
+           font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+.badge { font-size: 11px; padding: 1px 8px; border-radius: 10px; font-weight: 700; }
+.b2 { background: #12341f; color: #3fb950; border: 1px solid #238636; }
+.b4 { background: #3a2416; color: #f0883e; border: 1px solid #9e5622; }
+pre { margin: 0; padding: 10px 12px; white-space: pre-wrap; word-break: break-word;
+      line-height: 1.45; font-size: 12px; }
+.req { color: #7ee787; background: #10151c; border-bottom: 1px solid #21262d; }
+.key { color: #79c0ff; }
+.str { color: #a5d6ff; }
+.num { color: #f0883e; }
+.hash { color: #ff7b72; font-weight: 700; }
+.ok { color: #3fb950; }
+.foot { font-size: 11px; color: #8b949e; margin-top: 14px; font-family: system-ui, sans-serif; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+</style></head><body>
+<div class="wrap"><h1>5. Coleccion de Postman ejecutada con Newman</h1><div class="sub">postman/SoftwareAI.postman_collection.json — 50 requests, 66 assertions, 0 fallos.</div>
+
+    <div class="grid2">
+      <div class="card"><h2>Inicio de la corrida</h2><pre>newman
+
+SoftwareAI - Plataforma de Inscripciones a Cursos
+
+□ 00 - Salud
+└ GET /health
+  GET http://localhost:8081/api/health [200 OK, 278B, 57ms]
+  √  200 y servidor activo
+
+□ 01 - Autenticacion
+└ Registro (intenta role admin, debe quedar user)
+  POST http://localhost:8081/api/sessions/register [201 Created, 381B, 82ms]
+  √  201 creado
+  √  el rol enviado se ignora
+  √  el email se normaliza a minusculas
+  √  no devuelve password
+
+└ Registro duplicado (409)
+  POST http://localhost:8081/api/sessions/register [409 Conflict, 299B, 7ms]
+  √  409 conflicto
+  √  mensaje claro
+
+└ Registro sin campos (400)
+  POST http://localhost:8081/api/sessions/register [400 Bad Request, 301B, 3ms]
+  √  400
+</pre></div>
+      <div class="card"><h2>Resumen final</h2><pre>
+└ Inscribirse a curso cancelado (400)
+  POST http://localhost:8081/api/events/6a9a098ea3eee089401442c1/tickets [400 Bad Request, 321B, 10ms]
+  √  400 no disponible
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │               50 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │               42 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │                0 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │               66 │                0 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 2.4s                                      │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 16.69kB (approx)                         │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 27ms [min: 3ms, max: 82ms, s.d.: 27ms] │
+└───────────────────────────────────────────────────────────────┘</pre></div>
+    </div>
+
+</div></body></html>
