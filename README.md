@@ -96,12 +96,6 @@ Correr la colección de Postman completa:
 npm run postman
 ```
 
-Regenerar la evidencia contra la API corriendo:
-
-```bash
-npm run evidencia
-```
-
 El servidor queda en `http://localhost:8081` (o el puerto que definas en `PORT`).
 
 `npm run seed` **borra y recarga** la base con el catálogo de SoftwareAI y estos usuarios de prueba:
@@ -134,9 +128,8 @@ src/
 ├── utils/                  # hash, jwt, validators, pagination, reservationCode, httpError
 └── scripts/seed.js         # datos de prueba
 
-postman/                    # coleccion de Postman del flujo completo
-docs/                       # evidencia: transcripcion, corrida de Newman y capturas
-scripts/                    # generadores de la evidencia
+postman/                    # colección de Postman del flujo completo
+docs/                       # evidencia: transcripción, corrida de Newman y capturas
 ```
 
 **Regla de oro de la arquitectura:** el flujo es
@@ -318,14 +311,9 @@ El comando recarga la base antes de correr: la colección parte de datos limpios
 
 ### Transcripción y capturas
 
-```bash
-npm run evidencia
-```
-
-Recarga la base, ejecuta los casos contra la API y reescribe
-[`docs/EVIDENCIA.md`](docs/EVIDENCIA.md) con el request, el código HTTP y la respuesta de cada uno.
-Las imágenes están en [`docs/capturas/`](docs/capturas) — ver el
-[índice de evidencia](docs/README.md) — y se rehacen con `npm run capturas`.
+[`docs/EVIDENCIA.md`](docs/EVIDENCIA.md) guarda el request, el código HTTP y la respuesta reales de
+cada caso, tal como los devolvió la API. Las imágenes con esas mismas salidas están en
+[`docs/capturas/`](docs/capturas), indexadas en el [resumen de evidencia](docs/README.md).
 
 ### Casos cubiertos
 

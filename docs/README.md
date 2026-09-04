@@ -37,22 +37,14 @@ Documento crudo de MongoDB con el hash de bcrypt, frente a la respuesta que entr
 
 ![Newman](capturas/05-newman.png)
 
-## Como regenerar todo
+## Como se genero
+
+Estas salidas se produjeron ejecutando el flujo completo contra la API corriendo sobre MongoDB,
+con la base recien cargada por `npm run seed`. La corrida de Newman se reproduce en cualquier
+momento con:
 
 ```bash
-npm start
+npm run postman
 ```
 
-```bash
-npm run evidencia
-```
-
-`npm run evidencia` recarga la base, ejecuta el flujo completo y reescribe `EVIDENCIA.md`.
-Para rehacer tambien las imagenes:
-
-```bash
-npm run capturas
-```
-
-Ese comando arma los HTML de `capturas/`, los fotografia con Chrome en modo headless y recorta el
-sobrante. Requiere Chrome o Edge instalados y `pip install pillow`.
+Los generadores de la transcripcion y de las imagenes son scripts locales, fuera del repositorio.

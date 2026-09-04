@@ -8,8 +8,6 @@
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "seed": "node src/scripts/seed.js",
-    "evidencia": "npm run seed && bash scripts/evidencia.sh",
-    "capturas": "powershell -ExecutionPolicy Bypass -File scripts/capturar.ps1",
     "postman": "npm run seed && newman run postman/SoftwareAI.postman_collection.json"
   },
   "keywords": [
